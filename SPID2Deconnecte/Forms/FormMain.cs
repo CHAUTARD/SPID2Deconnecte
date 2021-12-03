@@ -4,6 +4,7 @@ using SQLite;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using SPID2Deconnecte.Forms;
 
 namespace SPID2Deconnecte
 {
@@ -16,6 +17,10 @@ namespace SPID2Deconnecte
         public FormHome()
         {
             InitializeComponent();
+
+            // Titre de la fenêtre
+            Text += " - Version : " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
         }
 
         private void quitterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,6 +88,38 @@ namespace SPID2Deconnecte
             {
                 connection.Close();
             }
+        }
+
+        private void importLicenciésEtClubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormImportLicencies  importLicencies = new FormImportLicencies();
+            importLicencies.ShowDialog();
+        }
+
+        private void clubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormFindClub club = new FormFindClub();
+            club.ShowDialog();
+        }
+
+        private void toolStripButtonClubs_Click(object sender, EventArgs e)
+        {
+            clubToolStripMenuItem_Click(sender, e);
+        }
+
+        private void licenciéToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"Licenciés");
+        }
+
+        private void toolStripButtonLicenciers_Click(object sender, EventArgs e)
+        {
+            licenciéToolStripMenuItem_Click( sender, e);
+        }
+
+        private void toolStripButtonPOT_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

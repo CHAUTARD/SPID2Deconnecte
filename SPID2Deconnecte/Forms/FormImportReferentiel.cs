@@ -1,30 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SPID2Deconnecte.Modeles;
 using System.Globalization;
+using SPID2Deconnecte.Modeles;
 
 namespace SPID2Deconnecte
 {
     public partial class FormImportReferentiel : Form
     {
-        NumberStyles style;
-        CultureInfo provider;
-
         public FormImportReferentiel()
         {
             InitializeComponent();
-
-            style = NumberStyles.None;
-            provider = CultureInfo.CurrentCulture;
         }
 
         private void buttonParcourir_Click(object sender, EventArgs e)
@@ -178,6 +164,9 @@ namespace SPID2Deconnecte
                 }
             }
 
+            textBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
+            textBoxMessage.Refresh();
+
             // Set cursor as default arrow
             Cursor.Current = Cursors.Default;
         }
@@ -207,7 +196,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("TYPE_CLASSEMENT", "TCLS_ID", typeClassement);
+                db.Insert(typeClassement);
             }
         }
 
@@ -268,7 +257,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("PARTIE_REF", "NIVREF_ID", partieRef);
+                db.Insert(partieRef);
             }
         }
 
@@ -302,7 +291,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("NIVEAU_REF", "NIVREF_ID", niveauRef);
+                db.Insert(niveauRef);
             }
         }
 
@@ -344,7 +333,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("TABLEAU_REF", "TABREF_ID", tableauRef);
+                db.Insert(tableauRef);
             }
         }
 
@@ -375,7 +364,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("GRILLE_DETAIL", "DGRIL_ID_DETAIL", grilleDetail);
+                db.Insert(grilleDetail);
             }
         }
 
@@ -411,7 +400,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("GRILLE_RENCONTRE", "GRIL_ID_RENC", grilleRencontre);
+                db.Insert(grilleRencontre);
             }
         }
 
@@ -439,7 +428,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("BAREME_DETAIL", "DBAR_ID_DETAILS", baremeDetail);
+                db.Insert(baremeDetail);
             }
         }
 
@@ -479,7 +468,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("CAT", "CAT_ID", categorie);
+                db.Insert(categorie);
             }
         }
 
@@ -504,7 +493,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("CAT_AGE_GROUP", "GCAT_CD", catAge);
+                db.Insert(catAge);
             }
         }
 
@@ -535,7 +524,7 @@ namespace SPID2Deconnecte
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("BAREME", "BAR_ID", bareme);
+                db.Insert(bareme);
             }
         }
 
@@ -564,12 +553,12 @@ namespace SPID2Deconnecte
             organisme.ORG_ORGA_ID = SingletonOutils.LongParse(line.Substring(15, 15));
             organisme.ORGA_LB = line.Substring(30,32).TrimEnd();
             organisme.ORGA_CD = line.Substring(62,5).TrimEnd();
-            organisme.ORGA_FG = line.Substring(67, 1)[0];
+            organisme.ORGA_FG = SingletonOutils.CharParse(line.Substring(67, 1));
             organisme.ORGA_BL_MODULE = SingletonOutils.CharParse( line.Substring(68, 1) );
 
             using (var db = new PetaPoco.Database("SqliteConnect"))
             {
-                db.Insert("ORGANISME", "ORGA_ID", organisme);
+                db.Insert(organisme);
             }
         }
 

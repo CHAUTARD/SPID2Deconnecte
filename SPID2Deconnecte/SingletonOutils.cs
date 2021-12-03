@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace SPID2Deconnecte
 {
@@ -49,11 +50,11 @@ namespace SPID2Deconnecte
 
 		private SingletonOutils() { }
 
-		public static char? CharParse(string str)
+		public static string CharParse(string str)
 		{
-			char car = str[0];
+			string car = str.Substring(0,1);
 
-			if (car == ' ')
+			if (str.CompareTo(" ") == 0)
 				return null;
 
 			return car;
@@ -86,6 +87,17 @@ namespace SPID2Deconnecte
 				return null;
 
 			return str;
+		}
+
+		public static DateTime? DateParse(string str)
+		{
+
+			str = str.Trim();
+			if (str.Length == 0)
+				return null;
+
+			DateTime dt = DateTime.ParseExact(str, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+			return dt;
 		}
 
 		public static void setTextRapport(RichTextBox txtRapport, string sText, bool bold = false)

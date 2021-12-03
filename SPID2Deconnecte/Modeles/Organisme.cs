@@ -22,9 +22,9 @@ namespace SPID2Deconnecte.Modeles
 
         // CHAR(1)
         // FG ( Dept, Ligue ,Zone, Fédé)
-        public char ORGA_FG { get; set; }
+        public string ORGA_FG { get; set; }
 
         // NUMERIC(1,0), Null possible
-        public char? ORGA_BL_MODULE { get; set; } // 0
+        public string ORGA_BL_MODULE { get; set; } // 0
     }
 }

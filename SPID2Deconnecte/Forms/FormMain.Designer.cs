@@ -108,6 +108,7 @@
             this.toolStripButtonPOT.Text = "POT";
             this.toolStripButtonPOT.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolStripButtonPOT.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonPOT.Click += new System.EventHandler(this.toolStripButtonPOT_Click);
             // 
             // toolStripButtonLicenciers
             // 
@@ -118,6 +119,7 @@
             this.toolStripButtonLicenciers.Size = new System.Drawing.Size(64, 64);
             this.toolStripButtonLicenciers.Text = "Licenciés";
             this.toolStripButtonLicenciers.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonLicenciers.Click += new System.EventHandler(this.toolStripButtonLicenciers_Click);
             // 
             // toolStripButtonClubs
             // 
@@ -128,6 +130,7 @@
             this.toolStripButtonClubs.Size = new System.Drawing.Size(64, 64);
             this.toolStripButtonClubs.Text = "Clubs";
             this.toolStripButtonClubs.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButtonClubs.Click += new System.EventHandler(this.toolStripButtonClubs_Click);
             // 
             // toolStripButtonMemo
             // 
@@ -153,7 +156,7 @@
             // 
             this.toolStripButtonQuitter.AutoSize = false;
             this.toolStripButtonQuitter.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQuitter.Image")));
-            this.toolStripButtonQuitter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonQuitter.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.toolStripButtonQuitter.Name = "toolStripButtonQuitter";
             this.toolStripButtonQuitter.Size = new System.Drawing.Size(64, 64);
             this.toolStripButtonQuitter.Text = "Quitter";
@@ -186,6 +189,7 @@
             // 
             // configurerLimprimanteToolStripMenuItem
             // 
+            this.configurerLimprimanteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("configurerLimprimanteToolStripMenuItem.Image")));
             this.configurerLimprimanteToolStripMenuItem.Name = "configurerLimprimanteToolStripMenuItem";
             this.configurerLimprimanteToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.configurerLimprimanteToolStripMenuItem.Text = "Configurer l\'imprimante...";
@@ -193,6 +197,7 @@
             // 
             // quitterToolStripMenuItem
             // 
+            this.quitterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("quitterToolStripMenuItem.Image")));
             this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
             this.quitterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.quitterToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
@@ -210,12 +215,14 @@
             // 
             // epreuvesToolStripMenuItem
             // 
+            this.epreuvesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("epreuvesToolStripMenuItem.Image")));
             this.epreuvesToolStripMenuItem.Name = "epreuvesToolStripMenuItem";
             this.epreuvesToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.epreuvesToolStripMenuItem.Text = "Epreuves";
             // 
             // gestionDesPOTToolStripMenuItem
             // 
+            this.gestionDesPOTToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("gestionDesPOTToolStripMenuItem.Image")));
             this.gestionDesPOTToolStripMenuItem.Name = "gestionDesPOTToolStripMenuItem";
             this.gestionDesPOTToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.gestionDesPOTToolStripMenuItem.Text = "Gestion des POT";
@@ -231,15 +238,19 @@
             // 
             // licenciéToolStripMenuItem
             // 
+            this.licenciéToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("licenciéToolStripMenuItem.Image")));
             this.licenciéToolStripMenuItem.Name = "licenciéToolStripMenuItem";
             this.licenciéToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.licenciéToolStripMenuItem.Text = "Licencié";
+            this.licenciéToolStripMenuItem.Click += new System.EventHandler(this.licenciéToolStripMenuItem_Click);
             // 
             // clubToolStripMenuItem
             // 
+            this.clubToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("clubToolStripMenuItem.Image")));
             this.clubToolStripMenuItem.Name = "clubToolStripMenuItem";
             this.clubToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.clubToolStripMenuItem.Text = "Club";
+            this.clubToolStripMenuItem.Click += new System.EventHandler(this.clubToolStripMenuItem_Click);
             // 
             // communicationToolStripMenuItem
             // 
@@ -273,6 +284,7 @@
             this.importLicenciésEtClubToolStripMenuItem.Name = "importLicenciésEtClubToolStripMenuItem";
             this.importLicenciésEtClubToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.importLicenciésEtClubToolStripMenuItem.Text = "Import Licencié et Club";
+            this.importLicenciésEtClubToolStripMenuItem.Click += new System.EventHandler(this.importLicenciésEtClubToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 

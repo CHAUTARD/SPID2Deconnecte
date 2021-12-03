@@ -8,16 +8,16 @@ namespace SPID2Deconnecte.Modeles
     internal class NiveauRef : TableBase
     {
         // NUMERIC( 15,0)
-        public ulong NIVREF_ID { get; set; }
+        public ulong NIVREF_ID;
 
         // NUMERIC( 15,0)
-        public ulong TABREF_ID { get; set; }
+        public ulong TABREF_ID;
         
         // CHAR(5)
-        public string NIVREF_CD { get; set; }
+        public string NIVREF_CD;
 
         // VARCHAR(32)
-        public string NIVREF_LB { get; set; }
+        public string NIVREF_LB;
 
         // INTEGER
         public int NIVREF_NB { get; set;}
@@ -26,6 +26,6 @@ namespace SPID2Deconnecte.Modeles
         public char NIVREF_BL_DEPART { get; set;}
 
         // NUMERIC( 15,0)
-        public ulong? NIVREF_NIVREF_ID { get; set; }
+        public ulong? NIVREF_NIVREF_ID;
     }
 }

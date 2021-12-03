@@ -9,21 +9,21 @@ namespace SPID2Deconnecte.Modeles
     internal class Club
     {
         // NUMERIC(15,0)
-        public ulong CLUB_ID { get; set; }
+        public ulong CLUB_ID;
 
         // NUMERIC(15,0) - Non renseigné
-        public ulong? ORGA_ID { get; set; }
+        public ulong? ORGA_ID;
 
         // VARCHAR(8)
-        public string CLUB_NM { get; set; }
+        public string CLUB_NM;
 
         // VARCHAR(32)
-        public string CLUB_LB_LONG { get; set; }
+        public string CLUB_LB_LONG;
 
         // VARCHAR(15)
-        public string CLUB_LB_COURT { get; set; }
+        public string CLUB_LB_COURT;
 
         // CHAR(1)
-        public string CLUB_FG { get; set; }
+        public string CLUB_FG;
     }
 }

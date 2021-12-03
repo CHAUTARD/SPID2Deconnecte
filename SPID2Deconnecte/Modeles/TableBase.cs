@@ -11,6 +11,6 @@ namespace SPID2Deconnecte.Modeles
         }
 
         // NUMERIC(1,0) NUll
-        public bool BL_MAJ { get; set; } // 1
+        public bool BL_MAJ; // 1
     }
 }

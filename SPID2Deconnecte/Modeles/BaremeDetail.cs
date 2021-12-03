@@ -9,15 +9,15 @@ namespace SPID2Deconnecte.Modeles
     internal class BaremeDetail : TableBase
     {
         // NUMERIC(15,0)
-        public ulong BAR_ID { get; set; }
+        public ulong BAR_ID;
 
         // NUMERIC(15,0)
-        public ulong DBAR_ID_DETAILS { get; set; }
+        public ulong DBAR_ID_DETAILS;
 
         // INTEGER
-        public int DBAR_NB_PLACE { get; set; }
+        public int DBAR_NB_PLACE;
 
         // INTEGER
-        public int DBAR_NB_POINT { get; set; }
+        public int DBAR_NB_POINT;
     }
 }

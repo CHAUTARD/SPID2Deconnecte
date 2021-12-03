@@ -9,66 +9,66 @@ namespace SPID2Deconnecte.Modeles
     internal class PartieRef : TableBase
     {
         // NUMERIC( 15,0)
-        public ulong RPARTI_ID_PARTIE_REF { get; set; }
+        public ulong RPARTI_ID_PARTIE_REF;
 
         // NUMERIC( 15,0)
-        public ulong NIVREF_ID { get; set; }
+        public ulong NIVREF_ID;
 
         // NUMERIC( 15,0)
-        public ulong? PAR_RPARTI_ID_PARTIE_REF { get; set; }
+        public ulong? PAR_RPARTI_ID_PARTIE_REF;
 
         // NUMERIC( 15,0)
-        public ulong? PAR2_RPARTI_ID_PARTIE_REF { get; set; }
+        public ulong? PAR2_RPARTI_ID_PARTIE_REF;
 
         // INTEGER
-         public int? RPARTI_NM_RANG1 { get; set; }
+         public int? RPARTI_NM_RANG1;
 
         // INTEGER
-        public int? RPARTI_NM_RANG2 { get; set; }
+        public int? RPARTI_NM_RANG2;
 
         // INTEGER
-        public int? RPARTI_NM_ORDRE_REF { get; set; }
+        public int? RPARTI_NM_ORDRE_REF;
 
         // INTEGER
-        public int? RPARTI_NM_PARTIE_REF { get; set; }
+        public int? RPARTI_NM_PARTIE_REF;
 
         // CHAR(1)
-         public char? RPARTI_FG_PARTIE_1 { get; set; }
+         public char? RPARTI_FG_PARTIE_1;
 
         // INTEGER
-        public int? RPARTI_NM_CLST_VAINQUEUR { get; set; }
+        public int? RPARTI_NM_CLST_VAINQUEUR;
 
         // INTEGER
-        public int? RPARTI_NM_POULE1 { get; set; }
+        public int? RPARTI_NM_POULE1;
 
         // INTEGER
-        public int? RPARTI_NM_CLASSEMENT1 { get; set; }
+        public int? RPARTI_NM_CLASSEMENT1;
 
         // INTEGER
-        public int? RPARTI_NM_POULE2 { get; set; }
+        public int? RPARTI_NM_POULE2;
 
         // INTEGER
-        public int? RPARTI_NM_CLASSEMENT2 { get; set; }
+        public int? RPARTI_NM_CLASSEMENT2;
 
         // INTEGER
-        public int? RPARTI_NM_POSITION1 { get; set; }
+        public int? RPARTI_NM_POSITION1;
 
         // INTEGER
-        public int? RPARTI_NM_POSITION2 { get; set; }
+        public int? RPARTI_NM_POSITION2;
 
         // CHAR(1)
-         public char? RPARTI_FG_PARTIE_2 { get; set; }
+         public char? RPARTI_FG_PARTIE_2;
 
         // INTEGER
-        public int? RPARTI_NM_CLST_PERDANT { get; set; }
+        public int? RPARTI_NM_CLST_PERDANT;
 
         // CHAR(1)
-         public char RPARTI_FG_PARTIE_REF { get; set; }
+         public char RPARTI_FG_PARTIE_REF;
 
         // CHAR(1)
-         public char? RPARTI_NM_CLST_REF { get; set; }
+         public char? RPARTI_NM_CLST_REF;
 
         // NUMERIC(1,0)
-        public int? RPARTI_BL_CLST_NONJOUEE { get; set; }
+        public int? RPARTI_BL_CLST_NONJOUEE;
     }
 }

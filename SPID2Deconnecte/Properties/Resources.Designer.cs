@@ -63,6 +63,26 @@ namespace SPID2Deconnecte.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap add {
+            get {
+                object obj = ResourceManager.GetObject("add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cance_32l {
+            get {
+                object obj = ResourceManager.GetObject("cance_32l", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap document_new {
             get {
                 object obj = ResourceManager.GetObject("document-new", resourceCulture);
@@ -96,6 +116,56 @@ namespace SPID2Deconnecte.Properties {
         internal static System.Drawing.Bitmap edit_clear {
             get {
                 object obj = ResourceManager.GetObject("edit-clear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap eye_16 {
+            get {
+                object obj = ResourceManager.GetObject("eye_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OK_32 {
+            get {
+                object obj = ResourceManager.GetObject("OK_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ping_pong_on_16 {
+            get {
+                object obj = ResourceManager.GetObject("ping-pong_on_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Printer_16 {
+            get {
+                object obj = ResourceManager.GetObject("Printer_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Validate_64 {
+            get {
+                object obj = ResourceManager.GetObject("Validate_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

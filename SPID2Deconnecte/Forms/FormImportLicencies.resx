@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="buttonParcourir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ButtonParcourir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
         dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUDSURBVGhD1Zk5Tx1JFIUdOpnQ0WSOJprEybDK0kiW
@@ -146,7 +146,7 @@
         ZQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="buttonAbandon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ButtonAbandon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAFBFJREFUaEO9
         WgdYlFfa/aaBoEhTiSLYJRp7VyxoYtdYolm7osEYE03sm1hiwq4liVGjiZ10s2Y1G1tQERCE2BCV3uvQ
@@ -237,10 +237,10 @@
         vok//TgSrQmXJyAOYCLKYlURwkVfiSD8F6UiSf8GXHfK6Ou4CcAAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="buttonImport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ButtonImport.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAACjBJREFUaEPVmGtslmcZx8sWMz9ME526yIzGLCFZjH4wRqKbMSYbRGJMcLolyDY2
+        DAAACwwBP0AiyAAACjBJREFUaEPVmGtslmcZx8sWMz9ME526yIzGLCFZjH4wRqKbMSYbRGJMcLolyDY2
         DqFjMMZxnOawgPQgWtpyaIuBtmMtpUD30go9aFvWciqEQ0tYOdOhG8GJwQOZHy7f38X+r/f7vM/LKGQf
         +PDP/bz3+xx+/+u+rvu+nyfHLOeuVmzn3aTYztvVwOnTdqyvz3WgtzdN6uecuGtvV7GdtyJguvcfsNY/
         dVjT7hZr3LnTGhoTaaLvreZdLs5BLW1t1t7ZZR17uv16mbtdY7Gd2cQDgXqjrt6qNtd6iwQcgiLMSUCj

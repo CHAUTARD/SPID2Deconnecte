@@ -30,162 +30,162 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFindClub));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBoxNum = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBoxNom = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripTextBox3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBoxNbr = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripTextBox1 = new System.Windows.Forms.ToolStripLabel();
+            this.ToolStripTextBoxNum = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripTextBox2 = new System.Windows.Forms.ToolStripLabel();
+            this.ToolStripTextBoxNom = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripTextBox3 = new System.Windows.Forms.ToolStripLabel();
+            this.ToolStripTextBoxNbr = new System.Windows.Forms.ToolStripTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonDel = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonNew = new System.Windows.Forms.Button();
-            this.textBoxLibelleCourt = new System.Windows.Forms.TextBox();
+            this.ButtonDel = new System.Windows.Forms.Button();
+            this.ButtonSave = new System.Windows.Forms.Button();
+            this.ButtonNew = new System.Windows.Forms.Button();
+            this.TextBoxLibelleCourt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxLibelleLong = new System.Windows.Forms.TextBox();
+            this.TextBoxLibelleLong = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxClubId = new System.Windows.Forms.TextBox();
+            this.TextBoxClubId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridViewClub = new System.Windows.Forms.DataGridView();
+            this.DataGridViewClub = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClub)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridViewClub)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
-            this.toolStripTextBoxNum,
-            this.toolStripTextBox2,
-            this.toolStripTextBoxNom,
-            this.toolStripTextBox3,
-            this.toolStripTextBoxNbr});
+            this.ToolStripTextBox1,
+            this.ToolStripTextBoxNum,
+            this.ToolStripTextBox2,
+            this.ToolStripTextBoxNom,
+            this.ToolStripTextBox3,
+            this.ToolStripTextBoxNbr});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1019, 27);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStripTextBox1
+            // ToolStripTextBox1
             // 
-            this.toolStripTextBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.toolStripTextBox1.Enabled = false;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(102, 20);
-            this.toolStripTextBox1.Text = "Numéro de club : ";
+            this.ToolStripTextBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.ToolStripTextBox1.Enabled = false;
+            this.ToolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBox1.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.ToolStripTextBox1.Name = "ToolStripTextBox1";
+            this.ToolStripTextBox1.Size = new System.Drawing.Size(102, 20);
+            this.ToolStripTextBox1.Text = "Numéro de club : ";
             // 
-            // toolStripTextBoxNum
+            // ToolStripTextBoxNum
             // 
-            this.toolStripTextBoxNum.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBoxNum.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.toolStripTextBoxNum.Name = "toolStripTextBoxNum";
-            this.toolStripTextBoxNum.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBoxNum.TextChanged += new System.EventHandler(this.toolStripTextBoxNum_TextChanged);
+            this.ToolStripTextBoxNum.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBoxNum.ForeColor = System.Drawing.SystemColors.MenuText;
+            this.ToolStripTextBoxNum.Name = "ToolStripTextBoxNum";
+            this.ToolStripTextBoxNum.Size = new System.Drawing.Size(100, 23);
+            this.ToolStripTextBoxNum.TextChanged += new System.EventHandler(this.ToolStripTextBoxNum_TextChanged);
             // 
-            // toolStripTextBox2
+            // ToolStripTextBox2
             // 
-            this.toolStripTextBox2.Enabled = false;
-            this.toolStripTextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox2.Name = "toolStripTextBox2";
-            this.toolStripTextBox2.Size = new System.Drawing.Size(86, 20);
-            this.toolStripTextBox2.Text = "Nom du club : ";
+            this.ToolStripTextBox2.Enabled = false;
+            this.ToolStripTextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBox2.Name = "ToolStripTextBox2";
+            this.ToolStripTextBox2.Size = new System.Drawing.Size(86, 20);
+            this.ToolStripTextBox2.Text = "Nom du club : ";
             // 
-            // toolStripTextBoxNom
+            // ToolStripTextBoxNom
             // 
-            this.toolStripTextBoxNom.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.toolStripTextBoxNom.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBoxNom.Name = "toolStripTextBoxNom";
-            this.toolStripTextBoxNom.Size = new System.Drawing.Size(250, 23);
-            this.toolStripTextBoxNom.TextChanged += new System.EventHandler(this.toolStripTextBoxNom_TextChanged_1);
+            this.ToolStripTextBoxNom.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.ToolStripTextBoxNom.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBoxNom.Name = "ToolStripTextBoxNom";
+            this.ToolStripTextBoxNom.Size = new System.Drawing.Size(250, 23);
+            this.ToolStripTextBoxNom.TextChanged += new System.EventHandler(this.ToolStripTextBoxNom_TextChanged_1);
             // 
-            // toolStripTextBox3
+            // ToolStripTextBox3
             // 
-            this.toolStripTextBox3.Enabled = false;
-            this.toolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox3.Name = "toolStripTextBox3";
-            this.toolStripTextBox3.Size = new System.Drawing.Size(99, 20);
-            this.toolStripTextBox3.Text = "Nombre de club :";
+            this.ToolStripTextBox3.Enabled = false;
+            this.ToolStripTextBox3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBox3.Name = "ToolStripTextBox3";
+            this.ToolStripTextBox3.Size = new System.Drawing.Size(99, 20);
+            this.ToolStripTextBox3.Text = "Nombre de club :";
             // 
-            // toolStripTextBoxNbr
+            // ToolStripTextBoxNbr
             // 
-            this.toolStripTextBoxNbr.Enabled = false;
-            this.toolStripTextBoxNbr.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBoxNbr.Name = "toolStripTextBoxNbr";
-            this.toolStripTextBoxNbr.ReadOnly = true;
-            this.toolStripTextBoxNbr.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBoxNbr.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ToolStripTextBoxNbr.Enabled = false;
+            this.ToolStripTextBoxNbr.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBoxNbr.Name = "ToolStripTextBoxNbr";
+            this.ToolStripTextBoxNbr.ReadOnly = true;
+            this.ToolStripTextBoxNbr.Size = new System.Drawing.Size(100, 23);
+            this.ToolStripTextBoxNbr.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.buttonDel);
-            this.panel1.Controls.Add(this.buttonSave);
-            this.panel1.Controls.Add(this.buttonNew);
-            this.panel1.Controls.Add(this.textBoxLibelleCourt);
+            this.panel1.Controls.Add(this.ButtonDel);
+            this.panel1.Controls.Add(this.ButtonSave);
+            this.panel1.Controls.Add(this.ButtonNew);
+            this.panel1.Controls.Add(this.TextBoxLibelleCourt);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.textBoxLibelleLong);
+            this.panel1.Controls.Add(this.TextBoxLibelleLong);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxType);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.textBoxClubId);
+            this.panel1.Controls.Add(this.TextBoxClubId);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(767, 30);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(252, 553);
             this.panel1.TabIndex = 10;
             // 
-            // buttonDel
+            // ButtonDel
             // 
-            this.buttonDel.Image = global::SPID2Deconnecte.Properties.Resources.edit_clear;
-            this.buttonDel.Location = new System.Drawing.Point(18, 497);
-            this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(221, 48);
-            this.buttonDel.TabIndex = 21;
-            this.buttonDel.Text = "Supprimer";
-            this.buttonDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonDel.UseVisualStyleBackColor = true;
-            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
+            this.ButtonDel.Image = global::SPID2Deconnecte.Properties.Resources.edit_clear;
+            this.ButtonDel.Location = new System.Drawing.Point(18, 497);
+            this.ButtonDel.Name = "ButtonDel";
+            this.ButtonDel.Size = new System.Drawing.Size(221, 48);
+            this.ButtonDel.TabIndex = 21;
+            this.ButtonDel.Text = "Supprimer";
+            this.ButtonDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonDel.UseVisualStyleBackColor = true;
+            this.ButtonDel.Click += new System.EventHandler(this.ButtonDel_Click);
             // 
-            // buttonSave
+            // ButtonSave
             // 
-            this.buttonSave.Enabled = false;
-            this.buttonSave.Image = global::SPID2Deconnecte.Properties.Resources.document_save;
-            this.buttonSave.Location = new System.Drawing.Point(18, 443);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(221, 48);
-            this.buttonSave.TabIndex = 20;
-            this.buttonSave.Text = "Enregistrer";
-            this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.ButtonSave.Enabled = false;
+            this.ButtonSave.Image = global::SPID2Deconnecte.Properties.Resources.document_save;
+            this.ButtonSave.Location = new System.Drawing.Point(18, 443);
+            this.ButtonSave.Name = "ButtonSave";
+            this.ButtonSave.Size = new System.Drawing.Size(221, 48);
+            this.ButtonSave.TabIndex = 20;
+            this.ButtonSave.Text = "Enregistrer";
+            this.ButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonSave.UseVisualStyleBackColor = true;
+            this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
-            // buttonNew
+            // ButtonNew
             // 
-            this.buttonNew.Image = global::SPID2Deconnecte.Properties.Resources.document_new1;
-            this.buttonNew.Location = new System.Drawing.Point(18, 387);
-            this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(221, 50);
-            this.buttonNew.TabIndex = 19;
-            this.buttonNew.Text = "Nouveau";
-            this.buttonNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonNew.UseVisualStyleBackColor = true;
-            this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
+            this.ButtonNew.Image = global::SPID2Deconnecte.Properties.Resources.document_new1;
+            this.ButtonNew.Location = new System.Drawing.Point(18, 387);
+            this.ButtonNew.Name = "ButtonNew";
+            this.ButtonNew.Size = new System.Drawing.Size(221, 50);
+            this.ButtonNew.TabIndex = 19;
+            this.ButtonNew.Text = "Nouveau";
+            this.ButtonNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonNew.UseVisualStyleBackColor = true;
+            this.ButtonNew.Click += new System.EventHandler(this.ButtonNew_Click);
             // 
-            // textBoxLibelleCourt
+            // TextBoxLibelleCourt
             // 
-            this.textBoxLibelleCourt.Enabled = false;
-            this.textBoxLibelleCourt.Location = new System.Drawing.Point(14, 231);
-            this.textBoxLibelleCourt.Name = "textBoxLibelleCourt";
-            this.textBoxLibelleCourt.Size = new System.Drawing.Size(231, 20);
-            this.textBoxLibelleCourt.TabIndex = 18;
+            this.TextBoxLibelleCourt.Enabled = false;
+            this.TextBoxLibelleCourt.Location = new System.Drawing.Point(14, 231);
+            this.TextBoxLibelleCourt.Name = "TextBoxLibelleCourt";
+            this.TextBoxLibelleCourt.Size = new System.Drawing.Size(231, 20);
+            this.TextBoxLibelleCourt.TabIndex = 18;
             // 
             // label4
             // 
@@ -196,13 +196,13 @@
             this.label4.TabIndex = 17;
             this.label4.Text = "Libellé court * :";
             // 
-            // textBoxLibelleLong
+            // TextBoxLibelleLong
             // 
-            this.textBoxLibelleLong.Enabled = false;
-            this.textBoxLibelleLong.Location = new System.Drawing.Point(13, 157);
-            this.textBoxLibelleLong.Name = "textBoxLibelleLong";
-            this.textBoxLibelleLong.Size = new System.Drawing.Size(231, 20);
-            this.textBoxLibelleLong.TabIndex = 16;
+            this.TextBoxLibelleLong.Enabled = false;
+            this.TextBoxLibelleLong.Location = new System.Drawing.Point(13, 157);
+            this.TextBoxLibelleLong.Name = "TextBoxLibelleLong";
+            this.TextBoxLibelleLong.Size = new System.Drawing.Size(231, 20);
+            this.TextBoxLibelleLong.TabIndex = 16;
             // 
             // label3
             // 
@@ -234,14 +234,14 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "Type :";
             // 
-            // textBoxClubId
+            // TextBoxClubId
             // 
-            this.textBoxClubId.Enabled = false;
-            this.textBoxClubId.Location = new System.Drawing.Point(14, 25);
-            this.textBoxClubId.Name = "textBoxClubId";
-            this.textBoxClubId.Size = new System.Drawing.Size(230, 20);
-            this.textBoxClubId.TabIndex = 12;
-            this.textBoxClubId.TextChanged += new System.EventHandler(this.textBoxClubId_TextChanged);
+            this.TextBoxClubId.Enabled = false;
+            this.TextBoxClubId.Location = new System.Drawing.Point(14, 25);
+            this.TextBoxClubId.Name = "TextBoxClubId";
+            this.TextBoxClubId.Size = new System.Drawing.Size(230, 20);
+            this.TextBoxClubId.TabIndex = 12;
+            this.TextBoxClubId.TextChanged += new System.EventHandler(this.TextBoxClubId_TextChanged);
             // 
             // label1
             // 
@@ -252,30 +252,31 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Numéro de club * :";
             // 
-            // dataGridViewClub
+            // DataGridViewClub
             // 
-            this.dataGridViewClub.AllowUserToAddRows = false;
-            this.dataGridViewClub.AllowUserToDeleteRows = false;
-            this.dataGridViewClub.AllowUserToResizeRows = false;
-            this.dataGridViewClub.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewClub.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewClub.Location = new System.Drawing.Point(0, 30);
-            this.dataGridViewClub.MultiSelect = false;
-            this.dataGridViewClub.Name = "dataGridViewClub";
-            this.dataGridViewClub.ReadOnly = true;
-            this.dataGridViewClub.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewClub.Size = new System.Drawing.Size(761, 547);
-            this.dataGridViewClub.TabIndex = 11;
-            this.dataGridViewClub.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dataGridViewClub_RowStateChanged);
+            this.DataGridViewClub.AllowUserToAddRows = false;
+            this.DataGridViewClub.AllowUserToDeleteRows = false;
+            this.DataGridViewClub.AllowUserToResizeRows = false;
+            this.DataGridViewClub.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DataGridViewClub.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridViewClub.Location = new System.Drawing.Point(0, 30);
+            this.DataGridViewClub.MultiSelect = false;
+            this.DataGridViewClub.Name = "DataGridViewClub";
+            this.DataGridViewClub.ReadOnly = true;
+            this.DataGridViewClub.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DataGridViewClub.Size = new System.Drawing.Size(761, 547);
+            this.DataGridViewClub.TabIndex = 11;
+            this.DataGridViewClub.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.DataGridViewClub_RowStateChanged);
             // 
             // FormFindClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1019, 595);
-            this.Controls.Add(this.dataGridViewClub);
+            this.Controls.Add(this.DataGridViewClub);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "FormFindClub";
@@ -285,7 +286,7 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClub)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridViewClub)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -294,24 +295,24 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripTextBox1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxNum;
-        private System.Windows.Forms.ToolStripLabel toolStripTextBox2;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxNom;
-        private System.Windows.Forms.ToolStripLabel toolStripTextBox3;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxNbr;
+        private System.Windows.Forms.ToolStripLabel ToolStripTextBox1;
+        private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxNum;
+        private System.Windows.Forms.ToolStripLabel ToolStripTextBox2;
+        private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxNom;
+        private System.Windows.Forms.ToolStripLabel ToolStripTextBox3;
+        private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxNbr;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button buttonDel;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonNew;
-        private System.Windows.Forms.TextBox textBoxLibelleCourt;
+        private System.Windows.Forms.Button ButtonDel;
+        private System.Windows.Forms.Button ButtonSave;
+        private System.Windows.Forms.Button ButtonNew;
+        private System.Windows.Forms.TextBox TextBoxLibelleCourt;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxLibelleLong;
+        private System.Windows.Forms.TextBox TextBoxLibelleLong;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxType;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxClubId;
+        private System.Windows.Forms.TextBox TextBoxClubId;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridViewClub;
+        private System.Windows.Forms.DataGridView DataGridViewClub;
     }
 }

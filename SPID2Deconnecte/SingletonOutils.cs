@@ -25,7 +25,11 @@ namespace SPID2Deconnecte
 		public static string REP_DB = Path.DirectorySeparatorChar + "Database";
 		public static string REP_IMPORT = REP_DB + Path.DirectorySeparatorChar + "Import_Export";
 
-		public static string CONNECTION_STRING = Directory.GetCurrentDirectory() + REP_DB + Path.DirectorySeparatorChar + "SPID2D.sqlite";
+		public static string DB_FILE = "SPID2D";
+		public static string DB_EXTENSION = ".db";
+		public static string DB_NAME = DB_FILE + DB_EXTENSION;
+
+		public static string CONNECTION_STRING = Directory.GetCurrentDirectory() + REP_DB + Path.DirectorySeparatorChar + DB_NAME;
 
 		public static string TEXT_SEPARATOR = new String('-', 60) + Environment.NewLine;
 
@@ -65,42 +69,51 @@ namespace SPID2Deconnecte
 			string str2 = str.Trim();
 
 			if (str2.Length == 0)
-				return null;
+				return (ushort?) null;
 
             return ushort.Parse(str2);
 		}
 
-		public static ulong? LongParse(string str)
+		public static long? LongParse(string str)
         {
 			string str2 = str.Trim();
 
 			if (str2.Length == 0)
 				return null;
 
-			return Convert.ToUInt64(str2);
+			return Convert.ToInt64(str2);
         }
+
+		public static long? LongSParse(string str)
+		{
+			string str2 = str.Trim();
+
+			if (str2.Length == 0)
+				return null;
+
+			return Convert.ToInt64(str2);
+		}
 
 		public static string StringParse(string str)
 		{ 
 			str = str.Trim();
 			if (str.Length == 0)
-				return null;
+				return "";
 
 			return str;
 		}
 
-		public static DateTime? DateParse(string str)
+		public static DateTime DateParse(string str)
 		{
 
 			str = str.Trim();
 			if (str.Length == 0)
-				return null;
+				return new DateTime(1900,1,1); // 01/01/0001 12h00
 
-			DateTime dt = DateTime.ParseExact(str, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-			return dt;
+			return DateTime.ParseExact(str, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 		}
 
-		public static void setTextRapport(RichTextBox txtRapport, string sText, bool bold = false)
+		public static void SetTextRapport(RichTextBox txtRapport, string sText, bool bold = false)
 		{
 			System.Drawing.Font currentFont = txtRapport.SelectionFont;
 
@@ -124,7 +137,7 @@ namespace SPID2Deconnecte
 				);
 		}
 
-		public static void setTextRapport(RichTextBox txtRapport, string sText, Color color, bool AddNewLine = false)
+		public static void SetTextRapport(RichTextBox txtRapport, string sText, Color color, bool AddNewLine = false)
 		{
 			if (AddNewLine)
 				sText += Environment.NewLine;

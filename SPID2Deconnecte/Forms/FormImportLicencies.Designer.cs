@@ -30,22 +30,22 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImportLicencies));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonParcourir = new System.Windows.Forms.Button();
+            this.ButtonParcourir = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBoxUploadFile = new System.Windows.Forms.TextBox();
+            this.TextBoxUploadFile = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBoxMessage = new System.Windows.Forms.TextBox();
-            this.buttonAbandon = new System.Windows.Forms.Button();
-            this.buttonImport = new System.Windows.Forms.Button();
+            this.TextBoxMessage = new System.Windows.Forms.TextBox();
+            this.ButtonAbandon = new System.Windows.Forms.Button();
+            this.ButtonImport = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonParcourir);
+            this.groupBox1.Controls.Add(this.ButtonParcourir);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBoxUploadFile);
+            this.groupBox1.Controls.Add(this.TextBoxUploadFile);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.Green;
@@ -57,22 +57,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sélection du fichier à importer (  généré à partir de SPID )";
             // 
-            // buttonParcourir
+            // ButtonParcourir
             // 
-            this.buttonParcourir.AutoSize = true;
-            this.buttonParcourir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonParcourir.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.buttonParcourir.Image = ((System.Drawing.Image)(resources.GetObject("buttonParcourir.Image")));
-            this.buttonParcourir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonParcourir.Location = new System.Drawing.Point(607, 12);
-            this.buttonParcourir.Name = "buttonParcourir";
-            this.buttonParcourir.Size = new System.Drawing.Size(120, 73);
-            this.buttonParcourir.TabIndex = 2;
-            this.buttonParcourir.Text = "&Parcourir";
-            this.buttonParcourir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonParcourir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonParcourir.UseVisualStyleBackColor = true;
-            this.buttonParcourir.Click += new System.EventHandler(this.buttonParcourir_Click);
+            this.ButtonParcourir.AutoSize = true;
+            this.ButtonParcourir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ButtonParcourir.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonParcourir.Image = ((System.Drawing.Image)(resources.GetObject("ButtonParcourir.Image")));
+            this.ButtonParcourir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ButtonParcourir.Location = new System.Drawing.Point(607, 12);
+            this.ButtonParcourir.Name = "ButtonParcourir";
+            this.ButtonParcourir.Size = new System.Drawing.Size(120, 73);
+            this.ButtonParcourir.TabIndex = 2;
+            this.ButtonParcourir.Text = "&Parcourir";
+            this.ButtonParcourir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ButtonParcourir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonParcourir.UseVisualStyleBackColor = true;
+            this.ButtonParcourir.Click += new System.EventHandler(this.ButtonParcourir_Click);
             // 
             // label1
             // 
@@ -84,17 +84,17 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Nom du fichier :";
             // 
-            // textBoxUploadFile
+            // TextBoxUploadFile
             // 
-            this.textBoxUploadFile.Enabled = false;
-            this.textBoxUploadFile.Location = new System.Drawing.Point(115, 35);
-            this.textBoxUploadFile.Name = "textBoxUploadFile";
-            this.textBoxUploadFile.Size = new System.Drawing.Size(486, 20);
-            this.textBoxUploadFile.TabIndex = 0;
+            this.TextBoxUploadFile.Enabled = false;
+            this.TextBoxUploadFile.Location = new System.Drawing.Point(115, 35);
+            this.TextBoxUploadFile.Name = "TextBoxUploadFile";
+            this.TextBoxUploadFile.Size = new System.Drawing.Size(486, 20);
+            this.TextBoxUploadFile.TabIndex = 0;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBoxMessage);
+            this.groupBox2.Controls.Add(this.TextBoxMessage);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.Green;
             this.groupBox2.Location = new System.Drawing.Point(0, 92);
@@ -102,45 +102,45 @@
             this.groupBox2.Size = new System.Drawing.Size(737, 308);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Résultat de l\'import du référentiel";
+            this.groupBox2.Text = "Résultat de l\'import des licenciés et des clubs";
             // 
-            // textBoxMessage
+            // TextBoxMessage
             // 
-            this.textBoxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxMessage.Location = new System.Drawing.Point(3, 16);
-            this.textBoxMessage.Margin = new System.Windows.Forms.Padding(10);
-            this.textBoxMessage.Multiline = true;
-            this.textBoxMessage.Name = "textBoxMessage";
-            this.textBoxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxMessage.Size = new System.Drawing.Size(731, 289);
-            this.textBoxMessage.TabIndex = 0;
+            this.TextBoxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxMessage.Location = new System.Drawing.Point(3, 16);
+            this.TextBoxMessage.Margin = new System.Windows.Forms.Padding(10);
+            this.TextBoxMessage.Multiline = true;
+            this.TextBoxMessage.Name = "TextBoxMessage";
+            this.TextBoxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TextBoxMessage.Size = new System.Drawing.Size(731, 289);
+            this.TextBoxMessage.TabIndex = 0;
             // 
-            // buttonAbandon
+            // ButtonAbandon
             // 
-            this.buttonAbandon.AutoSize = true;
-            this.buttonAbandon.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonAbandon.Image = ((System.Drawing.Image)(resources.GetObject("buttonAbandon.Image")));
-            this.buttonAbandon.Location = new System.Drawing.Point(404, 406);
-            this.buttonAbandon.Name = "buttonAbandon";
-            this.buttonAbandon.Size = new System.Drawing.Size(120, 54);
-            this.buttonAbandon.TabIndex = 6;
-            this.buttonAbandon.Text = "Abandon";
-            this.buttonAbandon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonAbandon.UseVisualStyleBackColor = true;
-            this.buttonAbandon.Click += new System.EventHandler(this.buttonAbandon_Click);
+            this.ButtonAbandon.AutoSize = true;
+            this.ButtonAbandon.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.ButtonAbandon.Image = ((System.Drawing.Image)(resources.GetObject("ButtonAbandon.Image")));
+            this.ButtonAbandon.Location = new System.Drawing.Point(404, 406);
+            this.ButtonAbandon.Name = "ButtonAbandon";
+            this.ButtonAbandon.Size = new System.Drawing.Size(120, 54);
+            this.ButtonAbandon.TabIndex = 6;
+            this.ButtonAbandon.Text = "Abandon";
+            this.ButtonAbandon.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonAbandon.UseVisualStyleBackColor = true;
+            this.ButtonAbandon.Click += new System.EventHandler(this.ButtonAbandon_Click);
             // 
-            // buttonImport
+            // ButtonImport
             // 
-            this.buttonImport.Enabled = false;
-            this.buttonImport.Image = ((System.Drawing.Image)(resources.GetObject("buttonImport.Image")));
-            this.buttonImport.Location = new System.Drawing.Point(151, 406);
-            this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(120, 54);
-            this.buttonImport.TabIndex = 5;
-            this.buttonImport.Text = "Importation";
-            this.buttonImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.buttonImport.UseVisualStyleBackColor = true;
-            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+            this.ButtonImport.Enabled = false;
+            this.ButtonImport.Image = ((System.Drawing.Image)(resources.GetObject("ButtonImport.Image")));
+            this.ButtonImport.Location = new System.Drawing.Point(151, 406);
+            this.ButtonImport.Name = "ButtonImport";
+            this.ButtonImport.Size = new System.Drawing.Size(120, 54);
+            this.ButtonImport.TabIndex = 5;
+            this.ButtonImport.Text = "Importation";
+            this.ButtonImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.ButtonImport.UseVisualStyleBackColor = true;
+            this.ButtonImport.Click += new System.EventHandler(this.ButtonImport_Click);
             // 
             // FormImportLicencies
             // 
@@ -149,8 +149,9 @@
             this.ClientSize = new System.Drawing.Size(740, 469);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.buttonAbandon);
-            this.Controls.Add(this.buttonImport);
+            this.Controls.Add(this.ButtonAbandon);
+            this.Controls.Add(this.ButtonImport);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -168,12 +169,12 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonParcourir;
+        private System.Windows.Forms.Button ButtonParcourir;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBoxUploadFile;
+        private System.Windows.Forms.TextBox TextBoxUploadFile;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBoxMessage;
-        private System.Windows.Forms.Button buttonAbandon;
-        private System.Windows.Forms.Button buttonImport;
+        private System.Windows.Forms.TextBox TextBoxMessage;
+        private System.Windows.Forms.Button ButtonAbandon;
+        private System.Windows.Forms.Button ButtonImport;
     }
 }

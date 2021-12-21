@@ -8,54 +8,55 @@ namespace SPID2Deconnecte.Modeles
     internal class Tour
     {
         // "TOUR_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong TOUR_ID;
+        public long TOUR_ID { get; set; }
 
         // "DIV_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong DIV_ID;
+        public long DIV_ID { get; set; }
 
         // "TOUR_LB"	VARCHAR(32),
-        public string TOUR_LB;
+        public string TOUR_LB { get; set; }
 
         // "TOUR_NB_GROUPE"	INTEGER,
-        public int TOUR_NB_GROUPE;
+        public int? TOUR_NB_GROUPE { get; set; }
 
         // "TOUR_NB_POULE"	INTEGER,
-        public int TOUR_NB_POULE;
+        public int? TOUR_NB_POULE { get; set; }
 
         // "TOUR_NB_JOUEUR"	INTEGER,
-        public ulong TOUR_NB_JOUEUR;
+        public int? TOUR_NB_JOUEUR { get; set; }
 
         // "TOUR_NB_JOUEUR_DESC"	INTEGER,
-        public int TOUR_NB_JOUEUR_DESC;
+        public int? TOUR_NB_JOUEUR_DESC { get; set; }
 
         // "TOUR_NB_JOUEUR_MONT"	INTEGER,
-        public int TOUR_NB_JOUEUR_MONT;
+        public int? TOUR_NB_JOUEUR_MONT { get; set; }
 
         // "TOUR_DT"	DATE,
-        public DateTime TOUR_DT;
+        public DateTime? TOUR_DT { get; set; }
 
         // "TOUR_LB_USER_MODIF"	VARCHAR(15),
-        public string TOUR_LB_USER_MODIF;
+        public string TOUR_LB_USER_MODIF { get; set; }
 
         // "TOUR_DT_MODIFICATION"	DATE,
-        public DateTime TOUR_DT_MODIFICATION;
+        public DateTime? TOUR_DT_MODIFICATION { get; set; }
 
         // "TOUR_DT_CREATION"	DATE,
-        public DateTime TOUR_DT_CREATION;
+        public DateTime? TOUR_DT_CREATION { get; set; }
 
         // "GRIL_ID_RENC"	NUMERIC(15, 0),
-        public ulong GRIL_ID_RENC;
+        public long? GRIL_ID_RENC { get; set; }
 
         // "TOUR_BL_CLOTURE"	NUMERIC(1, 0),
-        public int TOUR_BL_CLOTURE;
+        public int? TOUR_BL_CLOTURE { get; set; }
 
         // "TOUR_NM"	INTEGER,
-        public int TOUR_NM;
+        public int? TOUR_NM { get; set; }
 
         // "DIV_DIV_LB"	VARCHAR(32),
-        public string DIV_DIV_LB;
+        public string DIV_DIV_LB { get; set; }
 
         // "DIV2_DIV_LB"	VARCHAR(32),
-        public string DIV2_DIV_LB;
+        public string DIV2_DIV_LB { get; set; }
+
     }
 }

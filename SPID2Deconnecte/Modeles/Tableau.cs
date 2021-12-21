@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
@@ -9,45 +10,45 @@ namespace SPID2Deconnecte.Modeles
     internal class Tableau
     {
         // TAB_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong TAB_ID;
+        public long TAB_ID { get; set; }
 
         // TABREF_ID"	NUMERIC(15, 0),
-        public ulong TABREF_ID;
+        public long? TABREF_ID { get; set; }
 
         // TOUR_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong TOUR_ID;
+        public long TOUR_ID { get; set; }
 
         // TAB_NB_GROUPE"	INTEGER NOT NULL,
-        public int TAB_NB_GROUPE;
+        public int TAB_NB_GROUPE { get; set; }
 
         // TAB_CD_TABLEAU"	VARCHAR(5),
-        public string TAB_CD_TABLEAU;
+        public string TAB_CD_TABLEAU { get; set; }
 
         // TAB_LB"	VARCHAR(32) NOT NULL,
-        public string TAB_LB;
+        public string TAB_LB { get; set; }
 
         // TAB_DT_HEURE"	DATE NOT NULL,
-        public DateTime TAB_DT_HEURE;
+        public DateTime TAB_DT_HEURE { get; set; }
 
         // TAB_LB_LIEU"	VARCHAR(32),
-        public string TAB_LB_LIEU;
+        public string TAB_LB_LIEU { get; set; }
 
         // TAB_CM_TABLEAU"	VARCHAR(255),
-        public string TAB_CM_TABLEAU;
+        public string TAB_CM_TABLEAU { get; set; }
 
         // TAB_CM_TABLE_JUGE"	VARCHAR(255),
-        public string TAB_CM_TABLE_JUGE;
+        public string TAB_CM_TABLE_JUGE { get; set; }
 
         // TAB_LB_RAPPORT"	VARCHAR(64),
-        public string TAB_LB_RAPPORT;
+        public string TAB_LB_RAPPORT { get; set; }
 
         // TAB_LB_USER_MODIF"	VARCHAR(15) NOT NULL,
-        public string TAB_LB_USER_MODIF;
+        public string TAB_LB_USER_MODIF { get; set; }
 
         // TAB_DT_MODIFICATION"	DATE,
-        public DateTime TAB_DT_MODIFICATION;
+        public DateTime? TAB_DT_MODIFICATION { get; set; }
 
         // TAB_DT_CREATION"	DATE NOT NULL,
-        public DateTime TAB_DT_CREATION;
+        public DateTime TAB_DT_CREATION { get; set; }
     }
 }

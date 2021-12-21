@@ -34,8 +34,8 @@
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelCopyright = new System.Windows.Forms.Label();
             this.labelCompanyName = new System.Windows.Forms.Label();
-            this.textBoxDescription = new System.Windows.Forms.TextBox();
-            this.okButton = new System.Windows.Forms.Button();
+            this.TextBoxDescription = new System.Windows.Forms.TextBox();
+            this.OkButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -50,8 +50,8 @@
             this.tableLayoutPanel.Controls.Add(this.labelVersion, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.labelCopyright, 1, 2);
             this.tableLayoutPanel.Controls.Add(this.labelCompanyName, 1, 3);
-            this.tableLayoutPanel.Controls.Add(this.textBoxDescription, 1, 4);
-            this.tableLayoutPanel.Controls.Add(this.okButton, 1, 5);
+            this.tableLayoutPanel.Controls.Add(this.TextBoxDescription, 1, 4);
+            this.tableLayoutPanel.Controls.Add(this.OkButton, 1, 5);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -127,34 +127,34 @@
             this.labelCompanyName.Text = "pour la F.F.T.T.";
             this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBoxDescription
+            // TextBoxDescription
             // 
-            this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDescription.Location = new System.Drawing.Point(267, 107);
-            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.textBoxDescription.Multiline = true;
-            this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.ReadOnly = true;
-            this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxDescription.Size = new System.Drawing.Size(522, 126);
-            this.textBoxDescription.TabIndex = 23;
-            this.textBoxDescription.TabStop = false;
-            this.textBoxDescription.Text = "Description";
+            this.TextBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxDescription.Location = new System.Drawing.Point(267, 107);
+            this.TextBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.TextBoxDescription.Multiline = true;
+            this.TextBoxDescription.Name = "TextBoxDescription";
+            this.TextBoxDescription.ReadOnly = true;
+            this.TextBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxDescription.Size = new System.Drawing.Size(522, 126);
+            this.TextBoxDescription.TabIndex = 23;
+            this.TextBoxDescription.TabStop = false;
+            this.TextBoxDescription.Text = "Description";
             // 
-            // okButton
+            // OkButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(714, 239);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 24;
-            this.okButton.Text = "&OK";
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.OkButton.Location = new System.Drawing.Point(714, 239);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.TabIndex = 24;
+            this.OkButton.Text = "&OK";
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // AboutBox1
             // 
-            this.AcceptButton = this.okButton;
+            this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
@@ -184,7 +184,7 @@
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelCopyright;
         private System.Windows.Forms.Label labelCompanyName;
-        private System.Windows.Forms.TextBox textBoxDescription;
-        private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.TextBox TextBoxDescription;
+        private System.Windows.Forms.Button OkButton;
     }
 }

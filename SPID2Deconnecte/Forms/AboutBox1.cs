@@ -14,7 +14,7 @@ namespace SPID2Deconnecte
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            this.TextBoxDescription.Text = AssemblyDescription;
         }
 
         #region Accesseurs d'attribut de l'assembly
@@ -97,7 +97,7 @@ namespace SPID2Deconnecte
         }
         #endregion
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }

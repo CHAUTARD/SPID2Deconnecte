@@ -9,19 +9,19 @@ namespace SPID2Deconnecte.Modeles
     internal class Poule
     {
         // "POUL_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong POUL_ID;
+        public long POUL_ID;
 
         // "GRIL_ID_RENC"	NUMERIC(15, 0) NOT NULL,
-        public ulong GRIL_ID_RENC;
+        public long GRIL_ID_RENC;
 
         // "CALEN_ID_SPORTIF"	NUMERIC(15, 0),
-        public ulong CALEN_ID_SPORTIF;
+        public long CALEN_ID_SPORTIF;
 
         // "FEUIL_ID_RENC"	NUMERIC(15, 0),
-        public ulong FEUIL_ID_RENC;
+        public long FEUIL_ID_RENC;
 
         // "DIV_ID"	NUMERIC(15, 0) NOT NULL,
-        public ulong DIV_ID;
+        public long DIV_ID;
 
         // "POUL_CD"	VARCHAR(5) NOT NULL,
         public string POUL_CD;
@@ -54,7 +54,7 @@ namespace SPID2Deconnecte.Modeles
         public DateTime POUL_DT_CREATION;
 
         // "TAB_ID"	NUMERIC(15, 0),
-        public ulong TAB_ID;
+        public long TAB_ID;
 
         // "POUL_NM_TABLEAU"	INTEGER,
         public int POUL_NM_TABLEAU;

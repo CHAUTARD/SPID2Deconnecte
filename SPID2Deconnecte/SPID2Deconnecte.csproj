@@ -51,12 +51,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Sqlite, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Data.Sqlite.Core.6.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
+    <Reference Include="EPPlus, Version=5.8.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.8.3\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="NetSpell.SpellChecker, Version=2.1.7.41329, Culture=neutral, PublicKeyToken=318b389f0db66e46">
+      <HintPath>..\packages\NetSpell.2.1.7\lib\NetSpell.SpellChecker.dll</HintPath>
     </Reference>
     <Reference Include="PetaPoco, Version=6.0.480.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PetaPoco.Compiled.6.0.480\lib\net45\PetaPoco.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SQLite-net, Version=1.8.116.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-pcl.1.8.116\lib\netstandard2.0\SQLite-net.dll</HintPath>
     </Reference>
@@ -79,6 +87,10 @@
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -105,6 +117,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -117,11 +131,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compression.cs" />
+    <Compile Include="CRUD\LicencieCrud.cs" />
+    <Compile Include="CRUD\OrganismeCrud.cs" />
+    <Compile Include="CRUD\PackageCrud.cs" />
     <Compile Include="Forms\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CRUD\EpreuveCrud.cs" />
+    <Compile Include="CRUD\CategorieEpreuveCrud.cs" />
+    <Compile Include="CRUD\ClassementCrud.cs" />
+    <Compile Include="CRUD\DivisionCrud.cs" />
+    <Compile Include="Forms\FormDivision.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormDivision.Designer.cs">
+      <DependentUpon>FormDivision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEpreuve.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEpreuve.Designer.cs">
+      <DependentUpon>FormEpreuve.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormFindClub.cs">
       <SubType>Form</SubType>
@@ -129,11 +162,23 @@
     <Compile Include="Forms\FormFindClub.Designer.cs">
       <DependentUpon>FormFindClub.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormImportationInscript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormImportationInscript.Designer.cs">
+      <DependentUpon>FormImportationInscript.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormImportLicencies.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormImportLicencies.Designer.cs">
       <DependentUpon>FormImportLicencies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormImportPackage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormImportPackage.Designer.cs">
+      <DependentUpon>FormImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
@@ -147,15 +192,44 @@
     <Compile Include="Forms\FormImportReferentiel.Designer.cs">
       <DependentUpon>FormImportReferentiel.cs</DependentUpon>
     </Compile>
+    <Compile Include="CRUD\InscriptionCrud.cs" />
+    <Compile Include="CRUD\JoueurCrud.cs" />
+    <Compile Include="CRUD\NiveauCrud.cs" />
+    <Compile Include="CRUD\PackageTableauCrud.cs" />
+    <Compile Include="CRUD\PartieCrud.cs" />
+    <Compile Include="CRUD\TableauCrud.cs" />
+    <Compile Include="CRUD\TableauPartieCrud.cs" />
+    <Compile Include="CRUD\TourCrud.cs" />
+    <Compile Include="Forms\FormMAJBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMAJBase.Designer.cs">
+      <DependentUpon>FormMAJBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMemo.Designer.cs">
+      <DependentUpon>FormMemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormPot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormPot.Designer.cs">
+      <DependentUpon>FormPot.cs</DependentUpon>
+    </Compile>
     <Compile Include="InitFile.cs" />
     <Compile Include="Modeles\Bareme.cs" />
     <Compile Include="Modeles\CategorieAge.cs" />
     <Compile Include="Modeles\Categorie.cs" />
     <Compile Include="Modeles\BaremeDetail.cs" />
     <Compile Include="Modeles\CategorieEpreuve.cs" />
+    <Compile Include="Modeles\DivisionOrganisation.cs" />
     <Compile Include="Modeles\Classement.cs" />
+    <Compile Include="Modeles\FactoryData.cs" />
     <Compile Include="Modeles\Inscription.cs" />
     <Compile Include="Modeles\Joueur.cs" />
+    <Compile Include="Modeles\Memo.cs" />
     <Compile Include="Modeles\Niveau.cs" />
     <Compile Include="Modeles\PackageTableau.cs" />
     <Compile Include="Modeles\Partie.cs" />
@@ -187,17 +261,38 @@
     <EmbeddedResource Include="Forms\AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormDivision.resx">
+      <DependentUpon>FormDivision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEpreuve.resx">
+      <DependentUpon>FormEpreuve.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormFindClub.resx">
       <DependentUpon>FormFindClub.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormImportationInscript.resx">
+      <DependentUpon>FormImportationInscript.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormImportLicencies.resx">
       <DependentUpon>FormImportLicencies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormImportPackage.resx">
+      <DependentUpon>FormImportPackage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormImportReferentiel.resx">
       <DependentUpon>FormImportReferentiel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMAJBase.resx">
+      <DependentUpon>FormMAJBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMemo.resx">
+      <DependentUpon>FormMemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormPot.resx">
+      <DependentUpon>FormPot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -241,6 +336,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\document-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Printer_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\cance_32l.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\OK_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\eye_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ping-pong_on_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Validate_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.6\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.2.0.6\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />

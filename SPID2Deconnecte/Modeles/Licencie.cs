@@ -9,91 +9,90 @@ namespace SPID2Deconnecte.Modeles
     internal class Licencie
     {
         //         NUMERIC(15,0)
-        public ulong  LIC_ID;
+        public long LIC_ID { get; set; }
 
         //  NUMERIC(15,0)
-        public ulong?  CAT_ID;
+        public long?  CAT_ID { get; set; }
 
         // NUMERIC(15,0)
-        public ulong? CLUB_ID;
+        public long? CLUB_ID { get; set; }
 
         //  NUMERIC(15,0)
-        public ulong? CLU_CLUB_ID;
+        public long? CLU_CLUB_ID { get; set; }
 
         //  NUMERIC(15,0)
-        public ulong? TCLST_ID;
+        public long? TCLST_ID { get; set; } 
 
         // VARCHAR(64)
-        public string PERS_LB_NOM;
+        public string PERS_LB_NOM { get; set; }
 
         //VARCHAR(15)
-        public string PERS_LB_PRENOM;
+        public string PERS_LB_PRENOM { get; set; }
 
         //CHAR(1)
-        public char? PERS_FG_SEXE;
+        public string PERS_FG_SEXE { get; set; }
         
         //DATE
-        public DateTime? PERS_DT_NAISSANCE;
+        public DateTime? PERS_DT_NAISSANCE { get; set; }
         
         //VARCHAR(8)
-        public string LIC_NB_LICENCE;
+        public string LIC_NB_LICENCE { get; set; }
         
         //CHAR(1)
-        public char? LIC_FG_NATIONALITE;
+        public string LIC_FG_NATIONALITE { get; set; }
         
         //CHAR(1)
-        public char? LIC_FG;
+        public string LIC_FG { get; set; }
 
         //CHAR(1)
-        public char? LIC_FG_MODULE;
+        public string LIC_FG_MODULE { get; set; }
 
         //CHAR(1)
-        public char? LIC_FG_CERTIFICAT;
+        public string LIC_FG_CERTIFICAT { get; set; }
 
         // DATE
-        public DateTime? LIC_DT_CERTIFICAT;
+        public DateTime? LIC_DT_CERTIFICAT { get; set; }
 
         // DATE
-        public DateTime? LIC_DT_VALIDATION;
+        public DateTime? LIC_DT_VALIDATION { get; set; }
 
         // INTEGER
-        public int? LIC_NB_PLACE;
+        public int? LIC_NB_PLACE { get; set; }
 
         // NUMERIC(7,3)
-        public string LIC_NB_POINT;
+        public string LIC_NB_POINT { get; set; }
 
         // CHAR(1)
-        public char? LIC_FG_ECHELON;
+        public string LIC_FG_ECHELON { get; set; }
 
         // VARCHAR(64)
-        public string LIC_NB_POINT_CF_PREC;
+        public string LIC_NB_POINT_CF_PREC { get; set; }
 
         // VARCHAR(64)
-        public string LIC_NB_POINT_TOTAL_CF;
+        public string LIC_NB_POINT_TOTAL_CF { get; set; }
 
         // VARCHAR(64)
-        public string LIC_NB_TRI_POINT_CF;
+        public string LIC_NB_TRI_POINT_CF { get; set; }
 
         // NUMERIC(1,0)
-        public char? LIC_BL_LOCAL;
+        public int LIC_BL_LOCAL { get; set; }
 
         // NUMERIC(1,0)
-        public char? LIC_BL_DOUBLE;
+        public int LIC_BL_DOUBLE { get; set; }
 
         // NUMERIC(7,3)
-        public string LIC_NB_TOTAL_POINT_DOUBLE;
+        public string LIC_NB_TOTAL_POINT_DOUBLE { get; set; }
 
         // VARCHAR(64) 
-        public string LIC_NB_POINT_TOUR_PREC_CF;
+        public string LIC_NB_POINT_TOUR_PREC_CF { get; set; }
 
         // NUMERIC(15,0)
-        public ulong? EPRV_ID;
+        public long? EPRV_ID { get; set; }
 
         // NUMERIC(15,0)
-        public ulong? DOUBLE_CLUB_ID;
+        public long? DOUBLE_CLUB_ID { get; set; }
 
         // NUMERIC(15,0)
-        public ulong? DOUBLE_CLU_CLUB_ID;
-
+        public long? DOUBLE_CLU_CLUB_ID { get;  set; }
     }
 }

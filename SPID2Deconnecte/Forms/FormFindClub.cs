@@ -16,37 +16,31 @@ namespace SPID2Deconnecte.Forms
         public OleDbCommandBuilder cBuilder;
         public DataView myDataView;
 
-        private int? selectedRowCount = 0;
         private bool cancelDeletion = false;
 
         public FormFindClub()
         {
             InitializeComponent();
 
-            dataGridViewClub.Top = menuStrip1.Height;
+            DataGridViewClub.Top = menuStrip1.Height;
         }
 
         private void FormFindClub_Load(object sender, EventArgs e)
         {
             PopulateData();
 
-            dataGridViewClub.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewClub.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewClub.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewClub.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewClub.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            DataGridViewClub.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            DataGridViewClub.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            DataGridViewClub.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DataGridViewClub.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DataGridViewClub.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void toolStripTextBoxNum_TextChanged(object sender, EventArgs e)
+        private void ToolStripTextBoxNum_TextChanged(object sender, EventArgs e)
         {
             Filter();
         }
-        private void toolStripTextBoxNom_TextChanged_1(object sender, EventArgs e)
+        private void ToolStripTextBoxNom_TextChanged_1(object sender, EventArgs e)
         {
             Filter();
         }
@@ -55,8 +49,8 @@ namespace SPID2Deconnecte.Forms
         {
             DataView dv = dTable.DefaultView;
 
-            string strNum = toolStripTextBoxNum.Text;
-            string strNom = toolStripTextBoxNom.Text;
+            string strNum = ToolStripTextBoxNum.Text;
+            string strNom = ToolStripTextBoxNom.Text;
 
 
             if (strNum.Length == 0)
@@ -84,22 +78,21 @@ namespace SPID2Deconnecte.Forms
                     dv.RowFilter = "([Num] LIKE '%" + strNum + "%') AND (([Nom] LIKE '%" + strNom + "%') OR ([Nom_court] LIKE '%" + strNom + "%'))";
                 }
             }
-            dataGridViewClub.DataSource = dv;
+            DataGridViewClub.DataSource = dv;
 
-            setNbr();
+            SetNbr();
         }
 
-        private void setNbr()
+        private void SetNbr()
         {
-            toolStripTextBoxNbr.Text = dTable.DefaultView.Count.ToString();
+            ToolStripTextBoxNbr.Text = dTable.DefaultView.Count.ToString();
         }
 
-        private void dataGridViewClub_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        private void DataGridViewClub_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
-            if (dataGridViewClub.SelectedRows.Count > 0)
+            if (DataGridViewClub.SelectedRows.Count > 0)
             {
                 // This is the first row being deleted.
-                selectedRowCount = dataGridViewClub.SelectedRows.Count;
                 DialogResult result = MessageBox.Show("Are you sure you want to delete the selected row(s)?", "Confirm Deletion", MessageBoxButtons.OKCancel);
                 if(result == DialogResult.Cancel)
                     return; 
@@ -107,47 +100,46 @@ namespace SPID2Deconnecte.Forms
 
             e.Cancel = cancelDeletion;
 
-            if (dataGridViewClub.SelectedRows.Count == 1)
+            if (DataGridViewClub.SelectedRows.Count == 1)
             {
                 // This is the last row being deleted.
-                selectedRowCount = 0;
                 cancelDeletion = false;
             }
-            setNbr();
+            SetNbr();
         }
 
-        private void buttonNew_Click(object sender, EventArgs e)
+        private void ButtonNew_Click(object sender, EventArgs e)
         {
-            textBoxClubId.Enabled = true;
-            textBoxClubId.Text = string.Empty;
+            TextBoxClubId.Enabled = true;
+            TextBoxClubId.Text = string.Empty;
             comboBoxType.SelectedIndex = 0;
-            textBoxLibelleCourt.Text = string.Empty;
-            textBoxLibelleLong.Text = string.Empty;
+            TextBoxLibelleCourt.Text = string.Empty;
+            TextBoxLibelleLong.Text = string.Empty;
 
             // Bouton enregistrer et supprimer non actif
-            buttonSave.Enabled = false;
-            buttonDel.Enabled = false;
+            ButtonSave.Enabled = false;
+            ButtonDel.Enabled = false;
         }
 
-        private void dataGridViewClub_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        private void DataGridViewClub_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
         {
-            textBoxClubId.Enabled = false;
-            textBoxLibelleLong.Enabled = true;
-            textBoxLibelleCourt.Enabled = true;
+            TextBoxClubId.Enabled = false;
+            TextBoxLibelleLong.Enabled = true;
+            TextBoxLibelleCourt.Enabled = true;
             comboBoxType.Enabled = true;
 
-            buttonDel.Enabled = true;
+            ButtonDel.Enabled = true;
 
             // Get the currently selected row using the SelectedRow property.
-            DataGridViewSelectedRowCollection selRows = dataGridViewClub.SelectedRows;
+            DataGridViewSelectedRowCollection selRows = DataGridViewClub.SelectedRows;
 
             if (selRows.Count == 1)
             {
                 foreach (DataGridViewRow row in selRows)
                 {
-                    textBoxClubId.Text = row.Cells[1].Value.ToString();
-                    textBoxLibelleLong.Text = row.Cells[2].Value.ToString();
-                    textBoxLibelleCourt.Text = row.Cells[3].Value.ToString();
+                    TextBoxClubId.Text = row.Cells[1].Value.ToString();
+                    TextBoxLibelleLong.Text = row.Cells[2].Value.ToString();
+                    TextBoxLibelleCourt.Text = row.Cells[3].Value.ToString();
                     switch (row.Cells[4].ToString())
                     {
                         case "M":
@@ -162,9 +154,9 @@ namespace SPID2Deconnecte.Forms
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void ButtonDel_Click(object sender, EventArgs e)
         {
-            string str = textBoxClubId.Text.Trim();
+            string str = TextBoxClubId.Text.Trim();
             // Vérifier si le numéro du club est rempli
             if (str.Length > 0)
             {
@@ -189,22 +181,22 @@ namespace SPID2Deconnecte.Forms
 
         private void ClearControls()
         {
-            toolStripTextBoxNum.Text = string.Empty;
-            toolStripTextBoxNom.Text = string.Empty;
+            ToolStripTextBoxNum.Text = string.Empty;
+            ToolStripTextBoxNom.Text = string.Empty;
 
-            textBoxClubId.Enabled = false;
-            textBoxClubId.Text = string.Empty;
+            TextBoxClubId.Enabled = false;
+            TextBoxClubId.Text = string.Empty;
 
             comboBoxType.Enabled = false;
             comboBoxType.SelectedIndex = 0;
 
-            textBoxLibelleLong.Enabled = false;
-            textBoxLibelleLong.Text = string.Empty;
+            TextBoxLibelleLong.Enabled = false;
+            TextBoxLibelleLong.Text = string.Empty;
 
-            textBoxLibelleCourt.Enabled = false;
-            textBoxLibelleCourt.Text = string.Empty;
+            TextBoxLibelleCourt.Enabled = false;
+            TextBoxLibelleCourt.Text = string.Empty;
 
-            setNbr();
+            SetNbr();
         }
 
         private void PopulateData()
@@ -226,22 +218,21 @@ namespace SPID2Deconnecte.Forms
                 }
             }
 
-            dataGridViewClub.DataSource = dTable;
+            DataGridViewClub.DataSource = dTable;
         }
 
-        private void textBoxClubId_TextChanged(object sender, EventArgs e)
+        private void TextBoxClubId_TextChanged(object sender, EventArgs e)
         {
             // Seulement si le numero est rempli
-            string str = textBoxClubId.Text.Trim();
+            string str = TextBoxClubId.Text.Trim();
 
-            buttonSave.Enabled = buttonDel.Enabled = str.Length > 0;
+            ButtonSave.Enabled = ButtonDel.Enabled = str.Length > 0;
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             // Completer le numero de club avec des zéro devant
-            int i;
-            int.TryParse(textBoxClubId.Text, out i);
+            int.TryParse(TextBoxClubId.Text, out int i);
             string str = i.ToString("D8");
 
             // Recherche
@@ -254,8 +245,8 @@ namespace SPID2Deconnecte.Forms
                 {
                     club.CLUB_ID = Convert.ToUInt64(i);
                     club.CLUB_NM = str;
-                    club.CLUB_LB_LONG = textBoxLibelleLong.Text.Trim();
-                    club.CLUB_LB_COURT = textBoxLibelleCourt.Text.Trim();
+                    club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
+                    club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
 
                     // créate
                     db.Insert("CLUB", "CLUB_ID", club);
@@ -264,8 +255,8 @@ namespace SPID2Deconnecte.Forms
                 }
                 else
                 {
-                    club.CLUB_LB_LONG = textBoxLibelleLong.Text.Trim();
-                    club.CLUB_LB_COURT = textBoxLibelleCourt.Text.Trim();
+                    club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
+                    club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
 
                     db.Update("CLUB", "CLUB_ID", club);
 

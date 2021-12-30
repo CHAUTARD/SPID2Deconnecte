@@ -1,6 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Windows;
+﻿using System;
 
 namespace SPID2Deconnecte.Modeles
 {
@@ -31,7 +29,7 @@ namespace SPID2Deconnecte.Modeles
         public string PERS_FG_SEXE { get; set; }
         
         //DATE
-        public DateTime? PERS_DT_NAISSANCE { get; set; }
+        public DateTime PERS_DT_NAISSANCE { get; set; }
         
         //VARCHAR(8)
         public string LIC_NB_LICENCE { get; set; }
@@ -49,10 +47,10 @@ namespace SPID2Deconnecte.Modeles
         public string LIC_FG_CERTIFICAT { get; set; }
 
         // DATE
-        public DateTime? LIC_DT_CERTIFICAT { get; set; }
+        public DateTime LIC_DT_CERTIFICAT { get; set; }
 
         // DATE
-        public DateTime? LIC_DT_VALIDATION { get; set; }
+        public DateTime LIC_DT_VALIDATION { get; set; }
 
         // INTEGER
         public int? LIC_NB_PLACE { get; set; }

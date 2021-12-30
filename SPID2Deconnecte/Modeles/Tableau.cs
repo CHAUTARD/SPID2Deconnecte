@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace SPID2Deconnecte.Modeles
 {
@@ -42,7 +41,7 @@ namespace SPID2Deconnecte.Modeles
         public string TAB_LB_USER_MODIF { get; set; }
 
         // TAB_DT_MODIFICATION"	DATE,
-        public DateTime? TAB_DT_MODIFICATION { get; set; }
+        public DateTime TAB_DT_MODIFICATION { get; set; }
 
         // TAB_DT_CREATION"	DATE NOT NULL,
         public DateTime TAB_DT_CREATION { get; set; }

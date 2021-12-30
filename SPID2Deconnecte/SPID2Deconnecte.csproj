@@ -195,7 +195,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Compression.cs" />
-    <Compile Include="DBConnect.cs" />
     <Compile Include="DBUtils.cs" />
     <Compile Include="Forms\AboutBox1.cs">
       <SubType>Form</SubType>
@@ -277,6 +276,7 @@
     <Compile Include="Modeles\Categorie.cs" />
     <Compile Include="Modeles\BaremeDetail.cs" />
     <Compile Include="Modeles\CategorieEpreuve.cs" />
+    <Compile Include="Modeles\Column.cs" />
     <Compile Include="Modeles\ComboboxItem.cs" />
     <Compile Include="Modeles\DivisionOrganisation.cs" />
     <Compile Include="Modeles\Classement.cs" />

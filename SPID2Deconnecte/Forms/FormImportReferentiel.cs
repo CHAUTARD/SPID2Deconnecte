@@ -57,7 +57,6 @@ namespace SPID2Deconnecte
             int counter = 0;
 
             string strTable = "";
-            string sQuery;
 
             // Premiére ligne du fichier
             bool bFirst = true;
@@ -79,10 +78,22 @@ namespace SPID2Deconnecte
 
             FromTxt fromTxt = new FromTxt();
 
+            string sQueryOrganisme = DBUtils.BuildInsertSQL("ORGANISME");
+            string sQueryBareme = DBUtils.BuildInsertSQL("BAREME");
+            string sQueryCatAge = DBUtils.BuildInsertSQL("CAT_AGE_GROUP");
+            string sQueryCat = DBUtils.BuildInsertSQL("CAT");
+            string sQueryBaremeDetail = DBUtils.BuildInsertSQL("BAREME_DETAIL");
+            string sQueryGrilleRencontre = DBUtils.BuildInsertSQL("GRILLE_RENCONTRE");
+            string sQueryGrilleDetail = DBUtils.BuildInsertSQL("GRILLE_DETAIL");
+            string sQueryTableauRef = DBUtils.BuildInsertSQL("TABLEAU_REF");
+            string sQueryNiveauRef = DBUtils.BuildInsertSQL("NIVEAU_REF");
+            string sQueryPartieRef = DBUtils.BuildInsertSQL("PARTIE_REF");
+            string sQueryTypeClassement = DBUtils.BuildInsertSQL("TYPE_CLASSEMENT");
+
             // Initialisation de la database
             MySqlConnection connection = DBUtils.GetDBConnection();
 
-            using (var tx = connection.BeginTransaction())
+            using (var transaction = connection.BeginTransaction())
             {
                 // Read the file and display it line by line.  
                 foreach (string line in File.ReadLines(filePath))
@@ -109,7 +120,7 @@ namespace SPID2Deconnecte
                             TextBoxMessage.Refresh();
 
                             // Vidage table xxxx
-                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+                            connection.Execute("TRUNCATE `" + strTable + "`;");
                             counter++;
                         }
                         else
@@ -118,68 +129,57 @@ namespace SPID2Deconnecte
                             {
                                 case "ORGANISME":
                                     organisme = fromTxt.OrganismeFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, organisme);
+                                    connection.Execute(sQueryOrganisme, organisme);
                                     break;
 
                                 case "BAREME":
                                     bareme = fromTxt.BaremeFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, bareme);
+                                    connection.Execute(sQueryBareme, bareme);
                                     break;
 
                                 case "CAT_AGE_GROUP":
                                     catAge = fromTxt.CategorieAgeFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, catAge);
+                                    connection.Execute(sQueryCatAge, catAge);
                                     break;
 
                                 case "CAT":
                                     categorie = fromTxt.CategorieFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, categorie);
+                                    connection.Execute(sQueryCat, categorie);
                                     break;
 
                                 case "BAREME_DETAIL":
                                     baremeDetail = fromTxt.BaremeDetailFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, baremeDetail);
+                                    connection.Execute(sQueryBaremeDetail, baremeDetail);
                                     break;
 
                                 case "GRILLE_RENCONTRE":
                                     grilleRencontre = fromTxt.GrilleRencontreFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, grilleRencontre);
+                                    connection.Execute(sQueryGrilleRencontre, grilleRencontre);
                                     break;
 
                                 case "GRILLE_DETAIL":
                                     grilleDetail = fromTxt.GrilleDetailFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, grilleDetail);
+                                    connection.Execute(sQueryGrilleDetail, grilleDetail);
                                     break;
 
                                 case "TABLEAU_REF":
                                     tableauRef = fromTxt.TableauRefFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, tableauRef);
+                                    connection.Execute(sQueryTableauRef, tableauRef);
                                     break;
 
                                 case "NIVEAU_REF":
                                     niveauRef = fromTxt.NiveauRefFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, niveauRef);
+                                    connection.Execute(sQueryNiveauRef, niveauRef);
                                     break;
 
                                 case "PARTIE_REF":
                                     partieRef = fromTxt.PartieRefFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, partieRef);
+                                    connection.Execute(sQueryPartieRef, partieRef);
                                     break;
 
                                 case "TYPE_CLASSEMENT":
                                     typeClassement = fromTxt.TypeClassementFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, typeClassement);
+                                    connection.Execute(sQueryTypeClassement, typeClassement);
                                     break;
                             }
 
@@ -204,10 +204,21 @@ namespace SPID2Deconnecte
 
                     }
                 }
-            }
+                try
+                {
+                    transaction.Commit();
 
-            TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
-            TextBoxMessage.Refresh();
+                    TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
+                    TextBoxMessage.Refresh();
+                }
+                catch
+                {
+                    transaction.Rollback();
+
+                    TextBoxMessage.Text += "Erreur lors du traitement !" + Environment.NewLine;
+                    TextBoxMessage.Refresh();
+                }
+            }
 
             // Set cursor as default arrow
             Cursor.Current = Cursors.Default;

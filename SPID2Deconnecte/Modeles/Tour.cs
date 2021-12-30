@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Crée par SharpDevelop.
+ * Utilisateur: CHAUTARD
+ * Date: 13/12/2019
+ * Heure: 08:01
+ * 
+ * Pour changer ce modèle utiliser Outils | Options | Codage | Editer les en-têtes standards.
+ */
+
+using System;
 
 namespace SPID2Deconnecte.Modeles
 {
@@ -29,16 +38,16 @@ namespace SPID2Deconnecte.Modeles
         public int? TOUR_NB_JOUEUR_MONT { get; set; }
 
         // "TOUR_DT"	DATE,
-        public DateTime? TOUR_DT { get; set; }
+        public DateTime TOUR_DT { get; set; }
 
         // "TOUR_LB_USER_MODIF"	VARCHAR(15),
         public string TOUR_LB_USER_MODIF { get; set; }
 
         // "TOUR_DT_MODIFICATION"	DATE,
-        public DateTime? TOUR_DT_MODIFICATION { get; set; }
+        public DateTime TOUR_DT_MODIFICATION { get; set; }
 
         // "TOUR_DT_CREATION"	DATE,
-        public DateTime? TOUR_DT_CREATION { get; set; }
+        public DateTime TOUR_DT_CREATION { get; set; }
 
         // "GRIL_ID_RENC"	NUMERIC(15, 0),
         public long? GRIL_ID_RENC { get; set; }

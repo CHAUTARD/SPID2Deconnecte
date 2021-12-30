@@ -63,7 +63,8 @@ namespace SPID2Deconnecte.Forms
             // Nombre de ligne de la table
             int iNbr = 0;
 
-            string sQuery;
+            string sQueryClub = DBUtils.BuildInsertSQL("club");
+            string sQueryLicencie = DBUtils.BuildInsertSQL("licencie");
 
             FromTxt fromTxt = new FromTxt();
 
@@ -73,7 +74,7 @@ namespace SPID2Deconnecte.Forms
             // Initialisation de la database
             MySqlConnection connection = DBUtils.GetDBConnection();
 
-            using (var tx = connection.BeginTransaction())
+            using (var transaction = connection.BeginTransaction())
             {
 
                 // Read the file and display it line by line.  
@@ -101,7 +102,7 @@ namespace SPID2Deconnecte.Forms
                             TextBoxMessage.Refresh();
 
                             // Vidage table strTable ( CLUB, LICENCIE )
-                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+                            connection.Execute("TRUNCATE `" + strTable.ToLower() + "`;");
 
                             counter++;
                         }
@@ -110,30 +111,13 @@ namespace SPID2Deconnecte.Forms
                             switch (strTable)
                             {
                                 case "CLUB":
-                                    club = fromTxt.ClubFromTxt(line);
-
-                                    /*
-                                    sQuery = "INSERT INTO `club` (`CLUB_ID`, `ORGA_ID`, `CLUB_NM`, `CLUB_LB_LONG`, `CLUB_LB_COURT`, `CLUB_FG`) VALUES( " +
-                                       "@CLUB_ID, @ORGA_ID, @CLUB_NM, @CLUB_LB_LONG, @CLUB_LB_COURT, @CLUB_FG );";
-                                    */
-                                    sQuery = DBUtils.BuildInsertSQL("club");
-                                    connection.Execute(sQuery, club);
+                                    club = fromTxt.ClubFromTxt(line);                                 
+                                    connection.Execute(sQueryClub, club);
                                     break;
 
                                 case "LICENCIE":
                                     licencie = fromTxt.LicencieFromTxt(line);
-
-                                    /*
-                                    sQuery = "INSERT INTO `licencie` (`LIC_ID`, `CAT_ID`, `CLUB_ID`, `CLU_CLUB_ID`, `TCLST_ID`, `PERS_LB_NOM`, `PERS_LB_PRENOM`, " +
-                                        "`PERS_FG_SEXE`, `PERS_DT_NAISSANCE`, `LIC_NB_LICENCE`, `LIC_FG_NATIONALITE`, `LIC_FG`, `LIC_FG_MODULE`, `LIC_FG_CERTIFICAT`, " +
-                                        "`LIC_DT_CERTIFICAT`, `LIC_DT_VALIDATION`, `LIC_NB_PLACE`, `LIC_NB_POINT`, `LIC_FG_ECHELON`, `LIC_NB_POINT_CF_PREC`, `LIC_NB_POINT_TOTAL_CF`, " +
-                                        "`LIC_NB_TRI_POINT_CF`, `LIC_BL_LOCAL`, `LIC_BL_DOUBLE`, `LIC_NB_TOTAL_POINT_DOUBLE`, `LIC_NB_POINT_TOUR_PREC_CF`, `EPRV_ID`, `DOUBLE_CLUB_ID`, `DOUBLE_CLU_CLUB_ID`) " +
-                                        "VALUES( @LIC_ID, @CAT_ID, @CLUB_ID, @CLU_CLUB_ID, @TCLST_ID, @PERS_LB_NOM, @PERS_LB_PRENOM, @PERS_FG_SEXE, @PERS_DT_NAISSANCE, @LIC_NB_LICENCE, " +
-                                        "@LIC_FG_NATIONALITE, @LIC_FG, @LIC_FG_MODULE, @LIC_FG_CERTIFICAT, @LIC_DT_CERTIFICAT, @LIC_DT_VALIDATION, @LIC_NB_PLACE, @LIC_NB_POINT, @LIC_FG_ECHELON, @LIC_NB_POINT_CF_PREC, @LIC_NB_POINT_TOTAL_CF, " +
-                                        "@LIC_NB_TRI_POINT_CF, @LIC_BL_LOCAL, @LIC_BL_DOUBLE, @LIC_NB_TOTAL_POINT_DOUBLE, @LIC_NB_POINT_TOUR_PREC_CF,@EPRV_ID, @DOUBLE_CLUB_ID, @DOUBLE_CLU_CLUB_ID );";
-                                    */
-                                    sQuery = DBUtils.BuildInsertSQL("licencie");
-                                    connection.Execute( sQuery, licencie);
+                                    connection.Execute( sQueryLicencie, licencie);
                                     break;
                             }
 
@@ -163,14 +147,18 @@ namespace SPID2Deconnecte.Forms
                 {
                     try
                     {
-                        tx.Commit();
+                        transaction.Commit();
 
                         TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
                         TextBoxMessage.Refresh();
                     }
                     catch
                     {
-                        tx.Commit();
+                        transaction.Rollback();
+
+                        TextBoxMessage.Text += "Erreur lors du traitement !" + Environment.NewLine;
+                        TextBoxMessage.Refresh();
+
                         MessageBox.Show("Information non sauvées !");
                     }
                 }

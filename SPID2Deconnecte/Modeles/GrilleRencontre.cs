@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Globalization;
 
 namespace SPID2Deconnecte.Modeles
 {
     internal class GrilleRencontre : TableBase
     {
         // NUMERIC( 15,0)
-        public ulong GRIL_ID_RENC;
+        public ulong GRIL_ID_RENC{ get; set; }
 
         // NUMERIC( 15,0)
-        public ulong ORGA_ID;
+        public ulong ORGA_ID{ get; set; }
 
         // VARCHAR(5)
         public string GRIL_CD_RENC { set; get; }
@@ -18,15 +17,15 @@ namespace SPID2Deconnecte.Modeles
         public string GRIL_LB_RENC { set; get; }
 
         // INTEGER
-         public int GRIL_NB_EQUIPE;
+         public int GRIL_NB_EQUIPE{ get; set; }
 
         // CHAR(1)
-         public char GRIL_FG;
+         public char GRIL_FG{ get; set; }
 
         // // VARCHAR(15), Null
-        public string GRIL_LB_USER_MODIF;
+        public string GRIL_LB_USER_MODIF{ get; set; }
 
         // DATE, Null
-        public DateTime GRIL_DT_CREATION;
+        public DateTime GRIL_DT_CREATION{ get; set; }
     }
 }

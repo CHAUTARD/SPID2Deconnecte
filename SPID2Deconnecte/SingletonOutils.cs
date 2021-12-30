@@ -108,9 +108,9 @@ namespace SPID2Deconnecte
 
 			str = str.Trim();
 			if (str.Length == 0)
-				return new DateTime(1900,1,1); // 01/01/0001 12h00
+                return DateTime.MinValue;
 
-			return DateTime.ParseExact(str, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(str, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 		}
 
 		public static void SetTextRapport(RichTextBox txtRapport, string sText, bool bold = false)

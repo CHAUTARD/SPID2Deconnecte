@@ -1,9 +1,11 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
+using SPID2Deconnecte.Modeles;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,18 +14,6 @@ namespace SPID2Deconnecte
 {
     internal class DBUtils
     {
-        public class Column
-        {
-            public string sName { get; set; }
-            public string sType { get; set; }
-
-            public Column(string name, string type)
-            {
-                sName = name;
-                sType = type;
-            }
-        }
-
         public static MySqlConnection GetDBConnection()
         {
             // Connection String.
@@ -44,7 +34,7 @@ namespace SPID2Deconnecte
             // Initialisation de la database
             MySqlConnection connection = DBUtils.GetDBConnection();
 
-            string sQuery = "SELECT `COLUMN_NAME`, `DATA_TYPE` FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'spid2d' AND TABLE_NAME = '" + sTable + "';";
+            string sQuery = "SHOW COLUMNS FROM `" + sTable.ToLower() + "`;";
             IEnumerable<Column> columns = connection.Query<Column>(sQuery);
 
             connection.Close();
@@ -59,15 +49,16 @@ namespace SPID2Deconnecte
                     values.Append(", ");
                 }
 
-                sql.Append(column.sName);
+                sql.Append(column.FIELD);
                 values.Append("@");
-                values.Append(column.sName);
+                values.Append(column.FIELD);
             }
             sql.Append(") ");
             sql.Append(values.ToString());
             sql.Append(");");
 
-            return sql.ToString(); ;
+            string sqlString = sql.ToString();
+            return sql.ToString();
         }
 
         internal static string BuildUpdateSQL(string sTable, string sWhere)
@@ -80,7 +71,7 @@ namespace SPID2Deconnecte
             MySqlConnection connection = DBUtils.GetDBConnection();
 
             // Tous les champs sauf le champ primaire de la table
-            string sQuery = "SELECT `COLUMN_NAME`, `DATA_TYPE` FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'spid2d' AND COLUMN_KEY != 'PRI' AND TABLE_NAME = '" + sTable + "';";
+            string sQuery = "SHOW COLUMNS FROM `" + sTable.ToLower() + "`;"; 
             IEnumerable<Column> columns = connection.Query<Column>(sQuery);
 
             connection.Close();
@@ -94,9 +85,9 @@ namespace SPID2Deconnecte
                     sql.Append(", ");
                 }
 
-                sql.Append( "`" + column.sName + "`");
+                sql.Append( "`" + column.FIELD + "`");
                 sql.Append(" = @");
-                sql.Append(column.sName);
+                sql.Append(column.FIELD);
             }
             sql.Append(" WHERE " + sWhere);
             sql.Append(";");

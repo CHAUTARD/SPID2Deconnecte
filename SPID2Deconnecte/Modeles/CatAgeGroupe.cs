@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Windows;
-using MySql.Data.MySqlClient;
-
-namespace SPID2Deconnecte.Modeles
+﻿namespace SPID2Deconnecte.Modeles
 {
     internal class CatAgeGroupe : TableBase
     {

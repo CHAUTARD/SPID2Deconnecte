@@ -1,9 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Globalization;
-using System.Windows;
+﻿using System;
 
 namespace SPID2Deconnecte.Modeles
 {

@@ -3,12 +3,9 @@ using System.Data.Common;
 using System.Windows;
 using Dapper;
 using MySql.Data.MySqlClient;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("MEMO")]
-    [PrimaryKey("MEMO", AutoIncrement = false)]
 
     internal class Memo
     {
@@ -77,7 +74,6 @@ namespace SPID2Deconnecte.Modeles
                 finally
                 {
                     connection.Close();
-
                 }
             }
         }

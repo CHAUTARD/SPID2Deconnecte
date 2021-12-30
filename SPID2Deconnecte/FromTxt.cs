@@ -484,8 +484,12 @@ namespace SPID2Deconnecte
             */
 
             int pos = 0;
-            int len = line.Length;
+
+            // Suppression des espaces en fin de ligne
+            line = line.TrimEnd();
             Licencie licencie = new Licencie();
+
+            int len = line.Length;
 
             licencie.LIC_ID = Convert.ToInt64(line.Substring(pos, 15));
             pos = 15;
@@ -519,39 +523,79 @@ namespace SPID2Deconnecte
             pos += 10;
             licencie.LIC_DT_VALIDATION = SingletonOutils.DateParse(line.Substring(pos, 10));
             pos += 10;
-            licencie.LIC_NB_PLACE = SingletonOutils.ShortParse(line.Substring(pos, 8));
+
+            if (pos + 8 > len)
+                licencie.LIC_NB_PLACE = null;
+            else
+                licencie.LIC_NB_PLACE = SingletonOutils.ShortParse(line.Substring(pos, 8));
             pos += 8;
-            licencie.LIC_NB_POINT = SingletonOutils.StringParse(line.Substring(pos, 7));
+
+            if (pos + 8 > len)
+                licencie.LIC_NB_POINT = string.Empty;
+            else
+                licencie.LIC_NB_POINT = SingletonOutils.StringParse(line.Substring(pos, 8));
+            pos += 8;
+
+            if (pos + 1 > len)
+                licencie.LIC_FG_ECHELON = string.Empty;
+            else
+                licencie.LIC_FG_ECHELON = line.Substring(pos, 1);
+            pos++;
+
+            if (pos + 64 > len)
+                licencie.LIC_NB_POINT_CF_PREC = string.Empty;
+            else
+                licencie.LIC_NB_POINT_CF_PREC = SingletonOutils.StringParse(line.Substring(pos, 64));
+            pos += 64;
+
+            if (pos + 64 > len)
+                licencie.LIC_NB_POINT_TOTAL_CF = string.Empty;
+            else
+                licencie.LIC_NB_POINT_TOTAL_CF = SingletonOutils.StringParse(line.Substring(pos, 64));
+            pos += 64;
+
+            if (pos + 64 > len)
+                licencie.LIC_NB_TRI_POINT_CF = string.Empty;
+            else
+                licencie.LIC_NB_TRI_POINT_CF = SingletonOutils.StringParse(line.Substring(pos, 64));
+            pos += 64;
+
+            if (pos + 1 > len)
+                licencie.LIC_BL_LOCAL = 0;
+            else
+                licencie.LIC_BL_LOCAL = Convert.ToInt16(line.Substring(pos, 1));
+            pos++;
+
+            if (pos + 1 < len)
+                licencie.LIC_BL_DOUBLE = 0;
+            else
+                licencie.LIC_BL_DOUBLE = Convert.ToInt16(line.Substring(pos, 1));
+            pos++;
+
+            if (pos + 7 < len)
+                licencie.LIC_NB_TOTAL_POINT_DOUBLE = string.Empty;
+            else
+                licencie.LIC_NB_TOTAL_POINT_DOUBLE = SingletonOutils.StringParse(line.Substring(pos, 7));
             pos += 7;
-            licencie.LIC_FG_ECHELON = line.Substring(pos, 1);
-            pos++;
-            licencie.LIC_NB_POINT_CF_PREC = SingletonOutils.StringParse(line.Substring(pos, 64));
-            pos += 64;
-            licencie.LIC_NB_POINT_TOTAL_CF = SingletonOutils.StringParse(line.Substring(pos, 64));
-            pos += 64;
-            licencie.LIC_NB_TRI_POINT_CF = SingletonOutils.StringParse(line.Substring(pos, 64));
-            pos += 64;
-            licencie.LIC_BL_LOCAL = Convert.ToInt16(line.Substring(pos, 1));
-            pos++;
-            licencie.LIC_BL_DOUBLE = Convert.ToInt16(line.Substring(pos, 1));
-            pos++;
-            licencie.LIC_NB_TOTAL_POINT_DOUBLE = SingletonOutils.StringParse(line.Substring(pos, 7));
-            pos += 7;
+
             if (pos + 7 > len)
                 licencie.LIC_NB_POINT_TOUR_PREC_CF = "";
             else
                 licencie.LIC_NB_POINT_TOUR_PREC_CF = SingletonOutils.StringParse(line.Substring(pos, 7));
             pos += 7;
+
             if (pos > len)
                 licencie.EPRV_ID = null;
             else
                 licencie.EPRV_ID = SingletonOutils.LongParse(line.Substring(pos, 15));
             pos += 15;
+
             if (pos > len)
                 licencie.DOUBLE_CLUB_ID = null;
             else
                 licencie.DOUBLE_CLUB_ID = SingletonOutils.LongParse(line.Substring(pos, 15));
             pos += 15;
+
             if (pos > len)
                 licencie.DOUBLE_CLU_CLUB_ID = null;
             else
@@ -839,7 +883,7 @@ namespace SPID2Deconnecte
             pos += 15;
             tableau.TAB_DT_MODIFICATION = SingletonOutils.DateParse(line.Substring(pos, 10));
             pos += 10;
-            tableau.TAB_DT_CREATION = DateTime.ParseExact(line.Substring(pos, 10), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            tableau.TAB_DT_CREATION = SingletonOutils.DateParse(line.Substring(pos, 10));
 
             return tableau;
         }

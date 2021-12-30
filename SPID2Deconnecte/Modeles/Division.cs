@@ -1,7 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Data;
-using System.Windows;
+﻿using System;
 
 namespace SPID2Deconnecte.Modeles
 {
@@ -41,7 +38,7 @@ namespace SPID2Deconnecte.Modeles
         public string DIV_CD_LETTRE { get; set; }
 
         // DIV_CM"	VARCHAR(255),
-        public string DIV_CM;
+        public string DIV_CM { get; set; }
 
         // DIV_LB_USER_MODIF"	VARCHAR(15) NOT NULL,
         public string DIV_LB_USER_MODIF { get; set; }

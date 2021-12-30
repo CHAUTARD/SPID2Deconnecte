@@ -1,13 +1,5 @@
-﻿using System;
-using System.Windows;
-using MySql.Data.MySqlClient;
-using PetaPoco;
-
-namespace SPID2Deconnecte.Modeles
+﻿namespace SPID2Deconnecte.Modeles
 {
-    [TableName("CATEGORIE_EPREUVE")]
-    [PrimaryKey("DIV_ID,CAT_ID", AutoIncrement = false)]
-
     internal class CategorieEpreuve
     {
         // "DIV_ID"	NUMERIC(15, 0) NOT NULL,

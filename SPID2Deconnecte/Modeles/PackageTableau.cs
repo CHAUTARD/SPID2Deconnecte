@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SPID2Deconnecte.Modeles
+﻿namespace SPID2Deconnecte.Modeles
 {
     internal class PackageTableau
     {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SPID2Deconnecte.Modeles
+﻿namespace SPID2Deconnecte.Modeles
 {
     internal class ComboboxItem
     {

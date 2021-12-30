@@ -80,10 +80,23 @@ namespace SPID2Deconnecte
             TableauPartie tableauPartie = new TableauPartie();
             Classement classement = new Classement();
 
+            string sQueryPackage = DBUtils.BuildInsertSQL("PACKAGE");
+            string sQueryEpreuve = DBUtils.BuildInsertSQL("EPREUVE");
+            string sQueryDivision = DBUtils.BuildInsertSQL("DIVISION");
+            string sQueryCategorieEpreuve = DBUtils.BuildInsertSQL("CATEGORIE_EPREUVE");
+            string sQueryTour = DBUtils.BuildInsertSQL("TOUR");
+            string sQueryTableau = DBUtils.BuildInsertSQL("TABLEAU");
+            string sQueryJoueur = DBUtils.BuildInsertSQL("JOUEUR");
+            string sQueryInscription = DBUtils.BuildInsertSQL("INSCRIPTION");
+            string sQueryNiveau = DBUtils.BuildInsertSQL("NIVEAU");
+            string sQueryPartie = DBUtils.BuildInsertSQL("PARTIE");
+            string sQueryTableauPartie = DBUtils.BuildInsertSQL("TABLEAU_PARTIE");
+            string sQueryClassement = DBUtils.BuildInsertSQL("CLASSEMENT");
+
             // Initialisation de la database
             MySqlConnection connection = DBUtils.GetDBConnection();
 
-            using (var tx = connection.BeginTransaction())
+            using (var transaction = connection.BeginTransaction())
             {
                 // Read the file and display it line by line.  
                 foreach (string line in File.ReadLines(filePath))
@@ -110,7 +123,7 @@ namespace SPID2Deconnecte
                             TextBoxMessage.Refresh();
 
                             // Vidage table xxxx
-                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+                            connection.Execute("TRUNCATE `" + strTable.ToLower() + "`;");
 
                             counter++;
 
@@ -129,38 +142,42 @@ namespace SPID2Deconnecte
                             {
                                 case "PACKAGE":
                                     package = fromTxt.PackageFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, package);
+                                    connection.Execute( sQueryPackage, new {
+                                        PKG_ID = package.PKG_ID,
+                                        UTIL_LB_LOGIN = package.UTIL_LB_LOGIN,
+                                        PKG_LB = package.PKG_LB,
+                                        PKG_ETAT = package.PKG_ETAT,
+                                        PKG_LB_USER_MODIF = package.PKG_LB_USER_MODIF,
+                                        PKG_DT_MODIFICATION = package.PKG_DT_MODIFICATION,
+                                        PKG_DT_CREATION = package.PKG_DT_CREATION,
+                                        PKG_DATE_DESC = package.PKG_DT_CREATION,
+                                        PKG_DATE_MONTE = DateTime.MinValue
+                                    });
                                     break;
 
                                 case "EPREUVE":
                                     epreuve = fromTxt.EpreuveFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, epreuve);
+                                    connection.Execute(sQueryEpreuve, epreuve);
                                     break;
 
                                 case "DIVISION":
                                     division = fromTxt.DivisionFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, division);
+                                    connection.Execute(sQueryDivision, division);
                                     break;
 
                                 case "CATEGORIE_EPREUVE":
                                     categorieEpreuve = fromTxt.CategorieEpreuveFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, categorieEpreuve);
+                                    connection.Execute(sQueryCategorieEpreuve, categorieEpreuve);
                                     break;
 
                                 case "TOUR":
                                     tour = fromTxt.TourFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, tour);
+                                    connection.Execute(sQueryTour, tour);
                                     break;
 
                                 case "TABLEAU":
                                     tableau = fromTxt.TableauFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, categorieEpreuve);
+                                    connection.Execute(sQueryTableau, tableau);
                                     break;
 
                                 case "PACKAGE_TABLEAU":
@@ -171,38 +188,32 @@ namespace SPID2Deconnecte
 
                                 case "JOUEUR":
                                     joueur = fromTxt.JoueurFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, joueur);
+                                    connection.Execute(sQueryJoueur, joueur);
                                     break;
 
                                 case "INSCRIPTION":
                                     inscription = fromTxt.InscriptionFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, inscription);
+                                    connection.Execute(sQueryInscription, inscription);
                                     break;
 
                                 case "NIVEAU":
                                     niveau = fromTxt.NiveauFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, niveau);
+                                    connection.Execute(sQueryNiveau, niveau);
                                     break;
 
                                 case "PARTIE":
                                     partie = fromTxt.PartieFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, partie);
+                                    connection.Execute(sQueryPartie, partie);
                                     break;
 
                                 case "TABLEAU_PARTIE":
                                     tableauPartie = fromTxt.TableauPartieFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, tableauPartie);
+                                    connection.Execute(sQueryTableauPartie, tableauPartie);
                                     break;
 
                                 case "CLASSEMENT":
                                     classement = fromTxt.ClassementFromTxt(line);
-                                    sQuery = DBUtils.BuildInsertSQL(strTable);
-                                    connection.Execute(sQuery, classement);
+                                    connection.Execute(sQueryClassement, classement);
                                     break;
                             }
 
@@ -227,11 +238,21 @@ namespace SPID2Deconnecte
 
                     }
                 }
-                tx.Commit();
-            }
+                try
+                {
+                    transaction.Commit();
 
-            TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
-            TextBoxMessage.Refresh();
+                    TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
+                    TextBoxMessage.Refresh();
+                }
+                catch
+                {
+                    transaction.Rollback();
+
+                    TextBoxMessage.Text += "Erreur lors du traitement !" + Environment.NewLine;
+                    TextBoxMessage.Refresh();
+                }
+            }
 
             // Set cursor as default arrow
             Cursor.Current = Cursors.Default;

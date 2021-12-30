@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Crée par SharpDevelop.
+ * Utilisateur: CHAUTARD
+ * Date: 13/12/2019
+ * Heure: 08:01
+ * 
+ * Pour changer ce modèle utiliser Outils | Options | Codage | Editer les en-têtes standards.
+ */
+
+using System;
 
 namespace SPID2Deconnecte.Modeles
 {
@@ -26,9 +35,9 @@ namespace SPID2Deconnecte.Modeles
         public DateTime PKG_DT_CREATION { get; set; }
 
         // "PKG_DATE_DESC"	DATE,
-        //public DateTime PKG_DATE_DESC = new DateTime(1900,1,1);
+        public DateTime PKG_DATE_DESC { get; set; }
 
         // "PKG_DATE_MONTE"	DATE,
-        //public DateTime PKG_DATE_MONTE = new DateTime(1900,1,1);
+        public DateTime? PKG_DATE_MONTE { get; set; }
     }
 }

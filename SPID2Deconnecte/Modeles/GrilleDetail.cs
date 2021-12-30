@@ -1,26 +1,20 @@
-﻿using System;
-using PetaPoco;
-
-namespace SPID2Deconnecte.Modeles
+﻿namespace SPID2Deconnecte.Modeles
 {
-    [TableName("GRILLE_DETAIL")]
-    [PrimaryKey("DGRIL_ID_DETAIL", AutoIncrement = false)]
-
     internal class GrilleDetail : TableBase
     {
         // NUMERIC( 15,0)
-        public ulong DGRIL_ID_DETAIL;
+        public ulong DGRIL_ID_DETAIL{ get; set; }
 
         // INTEGER
-         public int DGRIL_NB_JOURNEE;
+         public int DGRIL_NB_JOURNEE{ get; set; }
 
         // INTEGER
-         public int DGRIL_NB_EQUIPE1;
+         public int DGRIL_NB_EQUIPE1{ get; set; }
 
         // INTEGER
-         public int DGRIL_NB_EQUIPE2;
+         public int DGRIL_NB_EQUIPE2{ get; set; }
 
         // NUMERIC( 15,0)
-        public ulong GRIL_ID_RENC;
+        public ulong GRIL_ID_RENC{ get; set; }
     }
 }

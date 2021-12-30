@@ -1,10 +1,9 @@
-﻿using System;
-using PetaPoco;
+﻿
+using System.Data;
+
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("INSCRIPTION")]
-    [PrimaryKey("INSC_ID", AutoIncrement = false)]
     internal class Inscription
     {
         // INSC_ID"	NUMERIC(15, 0) NOT NULL,
@@ -57,5 +56,31 @@ namespace SPID2Deconnecte.Modeles
 
         // INSC_BL_TIRAGE_TETE_SERIE"	NUMERIC(1, 0),
         public int INSC_BL_TIRAGE_TETE_SERIE { get; set; }
+
+        /*
+        public Inscription()
+        { }
+
+        public Inscription(IDataRecord dataRecord)
+        {
+            INSC_ID = (long)dataRecord[0];
+            JOUE_ID = (long)dataRecord[1];
+            TOUR_ID = (long)dataRecord[2];
+            INSC_NB_DOSSARD = (int)dataRecord[3];
+            INSC_NB_RANG_POULE = (int)dataRecord[4];
+            INSC_NB_POINT_TOUR = (int?)dataRecord[5];
+            INSC_BL_ABSENT = (int)dataRecord[6];
+            POUL_ID = (long?)dataRecord[7];
+            TOUR_ID_PREC = (long?)dataRecord[8];
+            INSC_NB_RANG_TOUR = (int?)dataRecord[9];
+            INSC_NM_RANG_TABLEAU = (int?)dataRecord[10];
+            INSC_CD_LETTRE = (string)dataRecord[11];
+            TAB_ID = (long?)dataRecord[12];
+            INSC_BL_TETE_SERIE = (int?)dataRecord[13];
+            INSC_NM_CLASSEMENT = (int?)dataRecord[14];
+            INSC_TIRAGE_POS_TAB = (int?)dataRecord[15];
+            INSC_BL_TIRAGE_TETE_SERIE = (int)dataRecord[16];
+        }
+        */
     }
 }

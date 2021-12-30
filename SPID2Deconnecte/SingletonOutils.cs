@@ -11,6 +11,7 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
+using MySql.Data.MySqlClient;
 
 namespace SPID2Deconnecte
 {
@@ -26,7 +27,7 @@ namespace SPID2Deconnecte
 		public static string REP_IMPORT = REP_DB + Path.DirectorySeparatorChar + "Import_Export";
 
 		public static string DB_FILE = "SPID2D";
-		public static string DB_EXTENSION = ".db";
+		public static string DB_EXTENSION = ".SingletonOutils.DATABASE";
 		public static string DB_NAME = DB_FILE + DB_EXTENSION;
 
 		public static string CONNECTION_STRING = Directory.GetCurrentDirectory() + REP_DB + Path.DirectorySeparatorChar + DB_NAME;
@@ -35,7 +36,6 @@ namespace SPID2Deconnecte
 
 		// Nom du fichier INI
 		public const string FILEINI = "config.ini";
-
 
 		public static SingletonOutils GetInstance()
 		{
@@ -149,15 +149,5 @@ namespace SPID2Deconnecte
 			txtRapport.AppendText(sText);
 			txtRapport.SelectionColor = txtRapport.ForeColor;
 		}
-
-		public static void TRUNCATE(string sTableName)
-		{
-			using (var db = new PetaPoco.Database("SqliteConnect"))
-			{
-				db.Execute("DELETE FROM @0;", sTableName);
-				db.Execute("DELETE FROM sqlite_sequence WHERE name = @0", sTableName);
-			}
-		}
-
 	}
 }

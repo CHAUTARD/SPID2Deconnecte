@@ -1,8 +1,10 @@
-﻿using SPID2Deconnecte.Modeles;
+﻿using Dapper;
+using MySql.Data.MySqlClient;
+using SPID2Deconnecte.Modeles;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
-using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace SPID2Deconnecte.Forms
@@ -157,17 +159,14 @@ namespace SPID2Deconnecte.Forms
         private void ButtonDel_Click(object sender, EventArgs e)
         {
             string str = TextBoxClubId.Text.Trim();
+
             // Vérifier si le numéro du club est rempli
             if (str.Length > 0)
             {
                 // Demande de confirmation
                 if (MessageBox.Show( "Confirmez-vous la suppression du club n° " + str, "Supprimer un club ?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    using (var db = new PetaPoco.Database("SqliteConnect"))
-                    {
-                        db.Execute(@"DELETE [CLUB] WHERE [CLUB_ID] = @0", str);
-                    }
-                    MessageBox.Show("Le club est supprimé !");
+                    DBUtils.Delete("club", "CLUB_ID", long.Parse(str), "Le club est supprimé !");
 
                     PopulateData();
                     ClearControls();
@@ -209,16 +208,38 @@ namespace SPID2Deconnecte.Forms
             dTable.Columns.Add("Nom_court", typeof(string));
             dTable.Columns.Add("Type", typeof(string));
 
-            using (var db = new PetaPoco.Database("SqliteConnect"))
+            MySqlConnection conn = DBUtils.GetDBConnection();
+            conn.Open();
+
+            // CLUB_ID 	ORGA_ID 	CLUB_NM 	CLUB_LB_LONG 	CLUB_LB_COURT 	CLUB_FG 
+            string sQuery = "SELECT * FROM CLUB ORDER BY CLUB_NM";
+
+            try
             {
-                var clubs = db.Query<Club>("SELECT * FROM CLUB ORDER BY CLUB_NM");
-                foreach (var club in clubs)
+                MySqlCommand comm = new MySqlCommand(sQuery, conn);
+                using (DbDataReader reader = comm.ExecuteReader())
                 {
-                    dTable.Rows.Add(club.CLUB_ID, club.CLUB_NM, club.CLUB_LB_LONG, club.CLUB_LB_COURT, club.CLUB_FG);
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            // club.CLUB_ID, club.CLUB_NM, club.CLUB_LB_LONG, club.CLUB_LB_COURT, club.CLUB_FG
+                            dTable.Rows.Add(reader.GetValue(0), reader.GetValue(2), reader.GetString(3), reader.GetString(4), reader.GetString(5));
+                        }
+                    }
                 }
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erreur: " + ex.Message, "Erreur lecture des clubs.");
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
 
-            DataGridViewClub.DataSource = dTable;
+                DataGridViewClub.DataSource = dTable;
+            }
         }
 
         private void TextBoxClubId_TextChanged(object sender, EventArgs e)
@@ -234,37 +255,45 @@ namespace SPID2Deconnecte.Forms
             // Completer le numero de club avec des zéro devant
             int.TryParse(TextBoxClubId.Text, out int i);
             string str = i.ToString("D8");
+            string sQuery;
 
             // Recherche
-            using (var db = new PetaPoco.Database("SqliteConnect"))
+            Club club = new Club();
+
+            int iNbr = DBUtils.Count("club","CLUB_ID", i);
+
+            // Initialisation de la database
+            MySqlConnection connection = DBUtils.GetDBConnection();
+
+            // Le club existe Update
+            if (iNbr == 1)
             {
-                Club club = db.SingleOrDefault<Club>("SELECT * FROM CLUB WHERE CLUB_NM=@0", str);
+                club.CLUB_ID = i;
+                club.CLUB_NM = str;
+                club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
+                club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
 
-                // Le club existe Update
-                if (club == null)
-                {
-                    club.CLUB_ID = Convert.ToUInt64(i);
-                    club.CLUB_NM = str;
-                    club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
-                    club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
+                sQuery = DBUtils.BuildUpdateSQL("club", "CLUB_ID = " + i.ToString());
+                connection.Execute(sQuery, club);
 
-                    // créate
-                    db.Insert("CLUB", "CLUB_ID", club);
+                MessageBox.Show("Le club est modifié !");
+            }
+            else
+            {
+                club.CLUB_ID = Convert.ToInt64(i);
+                club.CLUB_NM = str;
+                club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
+                club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
 
-                    MessageBox.Show("Le club est créé !");
-                }
-                else
-                {
-                    club.CLUB_LB_LONG = TextBoxLibelleLong.Text.Trim();
-                    club.CLUB_LB_COURT = TextBoxLibelleCourt.Text.Trim();
+                // créate
+                sQuery = DBUtils.BuildInsertSQL("club");
+                connection.Execute(sQuery, club);
 
-                    db.Update("CLUB", "CLUB_ID", club);
-
-                    MessageBox.Show("Le club est modifié !");
-                }
+                MessageBox.Show("Le club est créé !");
             }
 
             PopulateData();
+
             ClearControls();
         }
     }   

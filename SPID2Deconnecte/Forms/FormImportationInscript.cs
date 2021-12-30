@@ -1,5 +1,6 @@
-﻿using OfficeOpenXml;
-using SPID2Deconnecte.CRUD;
+﻿using Dapper;
+using MySql.Data.MySqlClient;
+using OfficeOpenXml;
 using SPID2Deconnecte.Modeles;
 using System;
 using System.IO;
@@ -49,13 +50,18 @@ namespace SPID2Deconnecte.Forms
             {
                 // Fichier à importer
                 FileInfo existingFile = new FileInfo(TextBoxUploadFile.Text.Trim());
-                LicencieCrud licencieCrud = new LicencieCrud();
-                Licencie licencie;
-                EpreuveCrud epreuveCrud = new EpreuveCrud();
-                JoueurCrud joueurCrud = new JoueurCrud();
+
+                FromTxt fromTxt = new FromTxt();
+
+                Epreuve epreuve = new Epreuve();
+                Joueur joueur = new Joueur();
+
+                MySqlConnection connection = DBUtils.GetDBConnection();
 
                 // Recherche des informations sur l'épreuve
-                long epreuve_id = epreuveCrud.GetIdMax();
+                // SELECT MAX(EPRV_ID) from EPREUVE
+                dynamic result = connection.Query("SELECT MAX(EPRV_ID) as Max from EPREUVE").Single();
+                long epreuve_id = result.Max;
 
                 //use EPPlus
 
@@ -80,29 +86,27 @@ namespace SPID2Deconnecte.Forms
 
                             if (str.CompareTo("Licence") == 0)
                             {
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
+                                for (int row = 3; row <= rowCount; row++)
                                 {
+                                    str = worksheet.Cells[row, 1].Value?.ToString().Trim();
 
-                                    for (int row = 3; row <= rowCount; row++)
+                                    //Print data, based on row and columns position
+                                    Console.WriteLine(" Row:" + row + " column: 1 - Value:" + str);
+
+                                    // Recherche du joueur dans la table des licenciers
+                                    // Get a record
+                                    Licencie licencie = (Licencie)connection.Query<Licencie>("SELECT * FROM `licencie` WHERE LIC_ID = " + str);
+
+                                    // Mise a jour de la table des joueurs
+                                    if (licencie != null)
                                     {
-                                        str = worksheet.Cells[row, 1].Value?.ToString().Trim();
+                                        string sQuery = "INSERT INTO `joueur` (`EPRV_ID`, `LIC_ID`) VALUES ( @epreuveId, @licencieId );";
+                                        connection.Execute(sQuery, new { epreuveId = epreuve_id, licencieId = licencie.LIC_ID });
 
-                                        //Print data, based on row and columns position
-                                        Console.WriteLine(" Row:" + row + " column: 1 - Value:" + str);
-
-                                        // Recherche du joueur dans la table des licenciers
-                                        // Get a record
-                                        licencie = licencieCrud.GetByNumLicence(str);
-
-                                        // Mise a jour de la table des joueurs
-                                        if (licencie != null)
-                                        {
-                                            joueurCrud.AddJoueur(epreuve_id, licencie.LIC_ID);
-
-                                            TextBoxMessage.Text += "Lic : " + str + ", Nom :  " + worksheet.Cells[row, 2].Value?.ToString().Trim() + Environment.NewLine;
-                                        }
+                                        TextBoxMessage.Text += "Lic : " + str + ", Nom :  " + worksheet.Cells[row, 2].Value?.ToString().Trim() + Environment.NewLine;
                                     }
                                 }
+
                                 TextBoxMessage.Text += "Terminé.";
                                 MessageBox.Show("Importation des joueurs terminée !", "Importation Joueurs");
                             }

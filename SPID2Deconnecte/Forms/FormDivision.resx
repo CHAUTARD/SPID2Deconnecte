@@ -118,6 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonCheckAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        cwAAAHMBY8FD/gAAAURJREFUOE+lk7uOgkAYhecB6KiIBZ1PQGIw3BJ6ba2ppKMj3rAy1DSUNpb6DpZW
+        2vsG9kCMMeZsfsCFCWDM7knO/MzlfJBhhjGw/5ma4/GIyWSCwWDQaVVV4TgOGoDtdgtBEDCdThGG4Ufv
+        drscYNs2RFHE+XwGUxQFURThG2VZBsuyft8vyzJVhtPpVC7pVpqmXJi8Wq14wO12w36/z5/rorBpmlx4
+        NpsV+0EdAlC43+/nk57nldEibBgGF57P59VmUiFAHMfcIoIkSQJd17nxxWLB/wkqBHg8HhiNRvUpSJLE
+        9ZfLJe73O67Xa/MLSG2Qt2nDSK7rwvf9dgCpDRIEQTkLjMfjzwBSHbJer8vRQg1A10F6Pp+4XC5lr9Dr
+        9coPz+FwqADfHuXNZgNN09Dr9aowmZpvLtNwOMwhXPgN+LsZ+wEKKCHU93ranAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="buttonCheckOff.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
+        cwAAAHMBY8FD/gAAAJBJREFUOE/tk7ENAyEMRT0AG7AGEgIxCDUViyBqFqBhEErG+jkTCV2KJOiui/Kl
+        78J8PygMAXTLs/Te4b2H1vqtjTEIIYCzL4BaK4QQiDEi5/zRrTVw/gwhpRRKKUdjT5zlmQU4hDHG83RD
+        fDvP/AG/Bbi9SLurnFKCcw5SyvmKBeDCjW+fyVo7IefhBbhuogeD8tiPnINDPwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="toolTip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>114, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAICAIAAAAAACoCAAAFgAAACgAAAAgAAAAQAAAAAEACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA

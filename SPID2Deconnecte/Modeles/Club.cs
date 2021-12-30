@@ -1,18 +1,16 @@
-﻿using System;
-using PetaPoco;
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Windows;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("CLUB")]
-    [PrimaryKey("CLUB_ID", AutoIncrement = false)]
-
     internal class Club
     {
         // NUMERIC(15,0)
-        public ulong CLUB_ID;
+        public long CLUB_ID;
 
         // NUMERIC(15,0) - Non renseigné
-        public ulong? ORGA_ID;
+        public long? ORGA_ID;
 
         // VARCHAR(8)
         public string CLUB_NM;
@@ -26,34 +24,75 @@ namespace SPID2Deconnecte.Modeles
         // CHAR(1)
         public string CLUB_FG;
 
-        public void FromTxt(string line)
+/*
+        internal void ReadByNum(string str)
         {
-            /*
-             *           1         2         3         4         5         6         7
-             * 01234567890123456789012345678901234567890123456789012345678901234567890
-             */
-            /*
-             *           1         2         3         4         5         6         7
-             * 012345678901234567890123456789012345678901234567890123456789012345678901234
-             * 1010001        01010001HAUT BUGEY TT                   La Cluse 01HBTTL
-             * 
-             * CLUB_ID          NUMERIC(15,0)
-             *  // ORGA_ID          NUMERIC(8,0) - Non renseigné
-             * CLUB_NM          VARCHAR(8)
-             * CLUB_LG_LONG     VARCHAR(32)
-             * CLUB_LB_COURT    VARCHAR(15)
-             * CLUB_FG          CHAR(1)
-             */
+            MySqlConnection conn = DBUtils.GetDBConnection();
+            conn.Open();
 
-            CLUB_ID = Convert.ToUInt64(line.Substring(0, 15));
+            string sQuery = "SELECT * FROM club WHERE CLUB_ID = " + str;
 
-            // Si le champ n'est pas renseigné
-            ORGA_ID = null;
-            CLUB_NM = line.Substring(15, 8).TrimEnd();
-            CLUB_LB_LONG = line.Substring(23, 32).TrimEnd();
-            CLUB_LB_COURT = line.Substring(55, 15);
-            CLUB_FG = SingletonOutils.CharParse(line.Substring(70, 1));
+            try
+            {
+                MySqlCommand command = new MySqlCommand( sQuery, conn);
 
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader != null)
+                {
+                    reader.Read();
+
+                    CLUB_ID = (long)reader[0];
+                    ORGA_ID = (long)reader[1];
+                    CLUB_NM = (string)reader[2];
+                    CLUB_LB_LONG = (string)reader[3];
+                    CLUB_LB_COURT = (string)reader[4];
+                    CLUB_FG = (string)reader[5];
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erreur: " + ex.Message, "Erreur lors de la modification.");
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
         }
+
+        internal int Update()
+        {
+            int iRet = 0;
+
+            // UPDATE `club` SET `CLUB_NM` = '-101' WHERE `club`.`CLUB_ID` = -101 
+            string sQuery = String.Format("UPDATE `club` set ( `ORGA_ID` = {0}, `CLUB_NM` = '{1}', `CLUB_LB_LONG` = '{2}', `CLUB_LB_COURT` = '{3}', `CLUB_FG` = '{4}' WHERE `CLUB_ID` = {5}');",     
+                ORGA_ID,
+                CLUB_NM,
+                CLUB_LB_LONG,
+                CLUB_LB_COURT,
+                CLUB_FG,
+                CLUB_ID
+            );
+
+            MySqlConnection conn = DBUtils.GetDBConnection();
+            conn.Open();
+
+            try
+            {
+                MySqlCommand comm = new MySqlCommand(sQuery, conn);
+                iRet = comm.ExecuteNonQuery();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erreur: " + ex.Message, "Erreur Modification Club !");
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return iRet;
+        }
+        */
     }
 }

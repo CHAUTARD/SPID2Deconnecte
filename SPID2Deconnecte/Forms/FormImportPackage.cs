@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using SPID2Deconnecte.CRUD;
+using Dapper;
+using MySql.Data.MySqlClient;
 using SPID2Deconnecte.Modeles;
 
 namespace SPID2Deconnecte
@@ -55,6 +56,7 @@ namespace SPID2Deconnecte
             int counter = 0;
 
             string strTable = "";
+            string sQuery;
 
             // Premiére ligne du fichier
             bool bFirst = true;
@@ -62,138 +64,170 @@ namespace SPID2Deconnecte
             // Nombre de ligne de la table
             int iNbr = 0;
 
-            PackageCrud package = new PackageCrud();
-            EpreuveCrud epreuve = new EpreuveCrud();
-            DivisionCrud division = new DivisionCrud();
-            CategorieEpreuveCrud categorieEpreuve = new CategorieEpreuveCrud();
-            TourCrud tour = new TourCrud();
-            TableauCrud tableau = new TableauCrud();
-            PackageTableauCrud packageTableau = new PackageTableauCrud();
-            JoueurCrud joueur = new JoueurCrud();
-            InscriptionCrud inscription = new InscriptionCrud();
-            NiveauCrud niveau = new NiveauCrud();
-            PartieCrud partie = new PartieCrud();
-            TableauPartieCrud tableauPartie = new TableauPartieCrud();
-            ClassementCrud classement = new ClassementCrud();
+            FromTxt fromTxt = new FromTxt();
 
-            // Read the file and display it line by line.  
-            foreach (string line in File.ReadLines(filePath))
+            Package package = new Package();
+            Epreuve epreuve = new Epreuve();
+            Division division = new Division();
+            CategorieEpreuve categorieEpreuve = new CategorieEpreuve();
+            Tour tour = new Tour();
+            Tableau tableau = new Tableau();
+            PackageTableau packageTableau = new PackageTableau();
+            Joueur joueur = new Joueur();
+            Inscription inscription = new Inscription();
+            Niveau niveau = new Niveau();
+            Partie partie = new Partie();
+            TableauPartie tableauPartie = new TableauPartie();
+            Classement classement = new Classement();
+
+            // Initialisation de la database
+            MySqlConnection connection = DBUtils.GetDBConnection();
+
+            using (var tx = connection.BeginTransaction())
             {
-                if (bFirst)
+                // Read the file and display it line by line.  
+                foreach (string line in File.ReadLines(filePath))
                 {
-                    DecoupeLigneDate(line);
-                    bFirst = false;
-                }
-                else 
-                { 
-                    /*
-                        *           1         2
-                        * 0123456789012345678901234
-                        * ORGANISME           131
-                        * BAREME              24
-                        * TYPE_CLASSEMENT     33
-                        */
-                    if (counter == 0)
+                    if (bFirst)
                     {
-                        strTable = line.Substring(0, 20).Trim();
-                        iNbr = int.Parse(line.Substring(20));
-                        TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
-                        TextBoxMessage.Refresh();
-                           
-                        // Vidage table xxxx
-                        using (var db = new PetaPoco.Database("SqliteConnect"))
-                        {
-                            db.Execute("DELETE FROM " + strTable + ";");
-                            db.Execute("VACUUM;");
-                        }
-                        counter++;
-
-                        // Pas d'enregistremlent dans la table
-                        if (iNbr == 0)
-                        {
-                            TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
-                            TextBoxMessage.Refresh();
-
-                            counter = 0;
-                        }
+                        DecoupeLigneDate(line);
+                        bFirst = false;
                     }
                     else
                     {
-                        switch(strTable)
+                        /*
+                            *           1         2
+                            * 0123456789012345678901234
+                            * ORGANISME           131
+                            * BAREME              24
+                            * TYPE_CLASSEMENT     33
+                            */
+                        if (counter == 0)
                         {
-                            case "PACKAGE":
-                                package.FromTxt(line);
-                                break;
-
-                            case "EPREUVE":
-                                epreuve.FromTxt(line);
-                                break;
-
-                            case "DIVISION":
-                                division.FromTxt(line);
-                                break;
-
-                            case "CATEGORIE_EPREUVE":
-                                categorieEpreuve.FromTxt(line);
-                                break;
-
-                            case "TOUR":
-                                tour.FromTxt(line);
-                                break;
-
-                            case "TABLEAU":
-                                tableau.FromTxt(line);
-                                break;
-
-                            case "PACKAGE_TABLEAU":
-                                packageTableau.FromTxt(line);
-                                break;
-
-                            case "JOUEUR":
-                                joueur.FromTxt(line);
-                                break;
-
-                            case "INSCRIPTION":
-                                inscription.FromTxt(line);
-                                break;
-
-                            case "NIVEAU":
-                                niveau.FromTxt(line);
-                                break;
-
-                            case "PARTIE":
-                                partie.FromTxt(line);
-                                break;
-
-                            case "TABLEAU_PARTIE":
-                                tableauPartie.FromTxt(line);
-                                break;
-
-                            case "CLASSEMENT":
-                                classement.FromTxt(line);
-                                break;
-                        }
-
-                        counter++;
-
-                        // Affichage d'un message tous les 100 enregistrements
-                        if(counter % 100 == 0)
-                        {
-                            TextBoxMessage.Text += " : " + counter;
-                            TextBoxMessage.Refresh();
-                        }
-
-                        // Importation de la table fini !
-                        if (counter > iNbr)
-                        {
-                            TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                            strTable = line.Substring(0, 20).Trim();
+                            iNbr = int.Parse(line.Substring(20));
+                            TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
                             TextBoxMessage.Refresh();
 
-                            counter = 0;
+                            // Vidage table xxxx
+                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+
+                            counter++;
+
+                            // Pas d'enregistremlent dans la table
+                            if (iNbr == 0)
+                            {
+                                TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                                TextBoxMessage.Refresh();
+
+                                counter = 0;
+                            }
                         }
+                        else
+                        {
+                            switch (strTable)
+                            {
+                                case "PACKAGE":
+                                    package = fromTxt.PackageFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, package);
+                                    break;
+
+                                case "EPREUVE":
+                                    epreuve = fromTxt.EpreuveFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, epreuve);
+                                    break;
+
+                                case "DIVISION":
+                                    division = fromTxt.DivisionFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, division);
+                                    break;
+
+                                case "CATEGORIE_EPREUVE":
+                                    categorieEpreuve = fromTxt.CategorieEpreuveFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, categorieEpreuve);
+                                    break;
+
+                                case "TOUR":
+                                    tour = fromTxt.TourFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, tour);
+                                    break;
+
+                                case "TABLEAU":
+                                    tableau = fromTxt.TableauFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, categorieEpreuve);
+                                    break;
+
+                                case "PACKAGE_TABLEAU":
+                                    packageTableau = fromTxt.PackageTableauFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, packageTableau);
+                                    break;
+
+                                case "JOUEUR":
+                                    joueur = fromTxt.JoueurFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, joueur);
+                                    break;
+
+                                case "INSCRIPTION":
+                                    inscription = fromTxt.InscriptionFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, inscription);
+                                    break;
+
+                                case "NIVEAU":
+                                    niveau = fromTxt.NiveauFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, niveau);
+                                    break;
+
+                                case "PARTIE":
+                                    partie = fromTxt.PartieFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, partie);
+                                    break;
+
+                                case "TABLEAU_PARTIE":
+                                    tableauPartie = fromTxt.TableauPartieFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, tableauPartie);
+                                    break;
+
+                                case "CLASSEMENT":
+                                    classement = fromTxt.ClassementFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, classement);
+                                    break;
+                            }
+
+                            counter++;
+
+                            // Affichage d'un message tous les 100 enregistrements
+                            if (counter % 100 == 0)
+                            {
+                                TextBoxMessage.Text += " : " + counter;
+                                TextBoxMessage.Refresh();
+                            }
+
+                            // Importation de la table fini !
+                            if (counter > iNbr)
+                            {
+                                TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                                TextBoxMessage.Refresh();
+
+                                counter = 0;
+                            }
+                        }
+
                     }
-
                 }
+                tx.Commit();
             }
 
             TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;

@@ -1,11 +1,7 @@
 ﻿using System;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("NIVEAU")]
-    [PrimaryKey("NIV_ID", AutoIncrement = false)]
-
     internal class Niveau
     {
         // NIV_ID"	NUMERIC(15, 0) NOT NULL,

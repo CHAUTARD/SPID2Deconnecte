@@ -3,6 +3,10 @@ using System.Windows.Forms;
 using SPID2Deconnecte.Forms;
 using SPID2Deconnecte.Modeles;
 using System.Drawing;
+using MySql.Data.MySqlClient;
+using Dapper;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SPID2Deconnecte
 {
@@ -37,16 +41,6 @@ namespace SPID2Deconnecte
             // Titre de la fenêtre
             Text += " - Version : " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
-             /*
-                Color[] bgColor = new Color[] {
-                    ColorTranslator.FromHtml("0xfeceea"),
-                    ColorTranslator.FromHtml("0xfef1d2"),
-                    ColorTranslator.FromHtml("0xa9fdd8"),
-                    ColorTranslator.FromHtml("0xd7f8ff"),
-                    ColorTranslator.FromHtml("0xcec5fa")
-                };
-            */
-
             MajTree();
 
             // Gestion de la division séléctionnée
@@ -61,42 +55,54 @@ namespace SPID2Deconnecte
             TreeViewEpreuve.Nodes.Clear();
 
             // Recherche si une ou des épreuves existent
-            var db = new PetaPoco.Database("SqliteConnect");
-
             TreeViewEpreuve.BeginUpdate();
 
             TreeNode tnRoot, tnEpreuve, tnDivision;
 
             tnRoot = AddTreeViewNode(TreeViewEpreuve.Nodes, "Liste des épreuves", IM_ROOT, new FactoryData(ROOT));
 
-            foreach (var epreuve in db.Query<EpreuveCrud>("SELECT * FROM EPREUVE ORDER BY EPRV_LB"))
+            using (MySqlConnection connection = DBUtils.GetDBConnection())
             {
-                tnEpreuve = AddTreeViewNode(tnRoot.Nodes, epreuve.EPRV_LB, IM_EPREUVE, epreuve);
+                IEnumerable<Epreuve> epreuves = connection.Query<Epreuve>("SELECT * FROM EPREUVE ORDER BY EPRV_LB");
 
-                // Rechercher les divisions pour cet épreuve
-                foreach (var div in db.Query<DivisionOrganisation>("SELECT DIV_ID, DIV_LB, ORGA_LB FROM DIVISION LEFT JOIN ORGANISME USING(ORGA_ID) WHERE EPRV_ID= " + epreuve.EPRV_ID + " ORDER BY DIV_LB;"))
-                {
-                    tnDivision = AddTreeViewNode(tnEpreuve.Nodes, string.Format("{0} ({1}", div.DIV_LB, div.ORGA_LB), IM_DIVISION_OFF, div);
+                foreach (Epreuve epreuve in epreuves)
+                { 
+                    tnEpreuve = AddTreeViewNode(tnRoot.Nodes, epreuve.EPRV_LB, IM_EPREUVE, epreuve);
 
-                    // Recherche les joueurs pour cet division
-                    // EPREUVE -> DIVISION -> TOUR -> INSCRIT -> JOUEUR -> LICENCIE
-                    int idTour = db.ExecuteScalar<int>("SELECT TOUR_ID FROM TOUR WHERE DIV_ID = " +div.DIV_ID);
-                    var inscriptions = db.Query<Inscription>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + idTour);
-
-                    foreach ( var insciption in inscriptions)
+                    // Rechercher les divisions pour cet épreuve
+                    IEnumerable<Division> divisions = connection.Query<Division>(string.Format("SELECT DIV_ID, DIV_LB, ORGA_LB FROM DIVISION LEFT JOIN ORGANISME USING(ORGA_ID) WHERE EPRV_ID= {0} ORDER BY DIV_LB;", epreuve.EPRV_ID));
+                    foreach(Division division in divisions)
                     {
-                        var joueur = db.SingleOrDefault <Joueur>("WHERE JOUE_ID = @0", insciption.JOUE_ID);
-                        var licencie = db.SingleOrDefault<Licencie>("WHERE LIC_ID = @0 ORDER BY PERS_LB_NOM, PERS_LB_PRENOM", joueur.LIC_ID);
+                        Organisme organisme = (Organisme)connection.Query<Organisme>("SELECT * FROM ORGANISME WHERE ORGA_ID = " + division.ORGA_ID);
+                        tnDivision = AddTreeViewNode(tnEpreuve.Nodes, string.Format("{0} ({1}", division.DIV_LB, organisme.ORGA_LB), IM_DIVISION_OFF, division);
 
-                        if (licencie != null)
+                        // Recherche les joueurs pour cet division
+                        // EPREUVE -> DIVISION -> TOUR -> INSCRIT -> JOUEUR -> LICENCIE
+                        Tour tour = (Tour)connection.Query<Tour>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + division.DIV_ID.ToString());
+                            
+                        if (tour.TOUR_ID > 0)
                         {
-                            int img = joueur.PRESENT == 1 ? IM_PRESENT_ON : IM_PRESENT_OFF;
+                            Inscription inscription = (Inscription)connection.Query<Inscription>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + tour.TOUR_ID.ToString());
 
-                            AddTreeViewNode(tnDivision.Nodes, string.Format("{0} {1}", licencie.PERS_LB_NOM, licencie.PERS_LB_PRENOM), img, joueur);
+                            Joueur joueur = (Joueur)connection.Query<Joueur>("SELECT * FROM `joueur` WHERE JOUE_ID = " + inscription.JOUE_ID.ToString());
+
+                            Licencie licencie = (Licencie)connection.Query<Licencie>("SELECT * FROM `licencie` WHERE LIC_ID = " + joueur.LIC_ID.ToString()); 
+
+                            if (licencie != null)
+                            {
+                                int img = joueur.PRESENT ? IM_PRESENT_ON : IM_PRESENT_OFF;
+
+                                AddTreeViewNode(tnDivision.Nodes, string.Format("{0} {1}", licencie.PERS_LB_NOM, licencie.PERS_LB_PRENOM), img, joueur);
+                            }
                         }
                     }
                 }
+
+                connection.Close();
+                connection.Dispose();
             }
+                
+
             TreeViewEpreuve.EndUpdate();
 
             TreeViewEpreuve.ExpandAll();
@@ -110,11 +116,6 @@ namespace SPID2Deconnecte
             new_node.SelectedImageIndex = image_index;
             new_node.Tag = tag_object;
             return new_node;
-        }
-
-        private void TsmiQuitter_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void TsmiConfigurerImprimante_Click(object sender, EventArgs e)
@@ -136,6 +137,11 @@ namespace SPID2Deconnecte
         }
 
         private void ToolStripButtonQuitter_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void TsmiQuitter_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -263,12 +269,7 @@ namespace SPID2Deconnecte
         {
             // Mise a jour de la table
             Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
-            joueur.PRESENT = 1;
-
-            using (var db = new PetaPoco.Database("SqliteConnect"))
-            {
-                db.Update(joueur);
-            }
+            joueur.SetPresent(1);
 
             // Mise a jour de l'image
             TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_ON;
@@ -279,12 +280,7 @@ namespace SPID2Deconnecte
         {
             // Mise a jour de la table
             Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
-            joueur.PRESENT = 0;
-
-            using (var db = new PetaPoco.Database("SqliteConnect"))
-            {
-                db.Update(joueur);
-            }
+            joueur.SetPresent(0);
 
             // Mise a jour de l'image
             TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_OFF;
@@ -295,17 +291,11 @@ namespace SPID2Deconnecte
         {
             // Mise a jour de la table
             Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
-
-            using (var db = new PetaPoco.Database("SqliteConnect"))
-            {
-                db.Delete(joueur);
-            }
+            DBUtils.Delete("joueur", "JOUE_ID", joueur.JOUE_ID, "Joueur supprimé de la division !");
 
             // Mise a jour de la treeview
             TreeViewEpreuve.SelectedNode.Remove();
         }
-
-        #endregion
 
         private void TsmiAddEpreuve_Click(object sender, EventArgs e)
         {
@@ -321,42 +311,61 @@ namespace SPID2Deconnecte
             // Mise a jour de la table
             Epreuve epreuve = TreeViewEpreuve.SelectedNode.Tag as Epreuve;
 
-            DivisionCrud divisionCrud = new DivisionCrud();
-            if (divisionCrud.CountEpreuve(epreuve.EPRV_ID) == 0)
+            /*
+                     public int CountByEpreuveId(long idEpreuve)
+        {
+            int iRet = DBUtils.Count("division", "EPRV_ID", idEpreuve);
+            return iRet;
+        }
+             */
+            using (MySqlConnection connection = DBUtils.GetDBConnection())
             {
-                if (MessageBox.Show("Voulez vous supprimer cette épreuve ?", "Suppression épeuve", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                dynamic result = connection.Query("SELECT COUNT(*) as Count FROM division WHERE  EPRV_ID = " + epreuve.EPRV_ID).Single();
+
+                if (result.Count == 0)
                 {
-                    EpreuveCrud epreuveCrud = new EpreuveCrud();
-                    epreuveCrud.Delete(epreuve);
+                    if (MessageBox.Show("Voulez vous supprimer cette épreuve ?", "Suppression épeuve", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        connection.Execute("DELETE FROM epreuve WHERE EPRV_ID = " + epreuve.EPRV_ID);
+                        connection.Close();
+                    }
 
                     MajTree();
                 }
-            }
-            else
-            {
-                // Suppression impossible !
-                MessageBox.Show("Il est impossible de supprimer une épreuve qui posséde des divisions rattachées !", "Suppression impossible !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    // Suppression impossible !
+                    MessageBox.Show("Il est impossible de supprimer une épreuve qui posséde des divisions rattachées !", "Suppression impossible !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         private void TsmiConsulterEpreuve_Click(object sender, EventArgs e)
         {
             // Mise a jour de la table
-            EpreuveCrud epreuveCrud = TreeViewEpreuve.SelectedNode.Tag as EpreuveCrud;
+            Epreuve epreuve = TreeViewEpreuve.SelectedNode.Tag as Epreuve;
 
             FormEpreuve frm = new FormEpreuve("UPDATE");
-            frm.SetData(epreuveCrud);
+            frm.SetData(epreuve);
 
             if (frm.ShowDialog() == DialogResult.OK)
                 MajTree();
 
             frm.Dispose();
         }
+        #endregion
 
         #region Division
         private void TmsiConsulterModifierDivision_Click(object sender, EventArgs e)
         {
+            Division division = TreeViewEpreuve.SelectedNode.Tag as Division;
 
+            FormDivision frm = new FormDivision("VIEW");
+            frm.SetData(division);
+            if (frm.ShowDialog() == DialogResult.OK)
+                MajTree();
+
+            frm.Dispose();
         }
 
         private void TsmiAjouterInscrit_Click(object sender, EventArgs e)
@@ -369,20 +378,25 @@ namespace SPID2Deconnecte
             // Mise a jour de la table
             Division division = TreeViewEpreuve.SelectedNode.Tag as Division;
 
-            InscriptionCrud inscriptionCurd = new InscriptionCrud();
-            if (inscriptionCurd.CountInscitr(division.DIV_ID) == 0)
+            using (MySqlConnection connection = DBUtils.GetDBConnection())
             {
-                if (MessageBox.Show("Voulez vous supprimer cette division ?", "Suppression division", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    inscriptionCurd.Delete();
+                dynamic result = connection.Query("SELECT COUNT(*) as Count FROM division WHERE EPRV_ID = " + division.DIV_ID).Single();
 
-                    MajTree();
+                if (result.Count == 0)
+                {
+                    if (MessageBox.Show("Voulez vous supprimer cette division ?", "Suppression division", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        connection.Query("DELETE FROM division WHERE DIV_ID = " + division.DIV_ID);
+
+                        MajTree();
+                    }
+                    else
+                    {
+                        // Suppression impossible !
+                        MessageBox.Show("Il est impossible de supprimer une division qui posséde des inscrits rattachés !", "Suppression impossible !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-            }
-            else
-            {
-                // Suppression impossible !
-                MessageBox.Show("Il est impossible de supprimer une division qui posséde des inscrits rattachés !", "Suppression impossible !", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                connection.Close();
             }
         }
         #endregion
@@ -418,7 +432,9 @@ namespace SPID2Deconnecte
 
         private void TsmiAddDivision_Click(object sender, EventArgs e)
         {
-            FormDivision frm = new FormDivision();
+            Epreuve epreuve = TreeViewEpreuve.SelectedNode.Tag as Epreuve;
+
+            FormDivision frm = new FormDivision("CREER", epreuve.EPRV_ID);
             if (frm.ShowDialog() == DialogResult.OK)
                 MajTree();
 

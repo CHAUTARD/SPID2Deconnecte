@@ -33,5 +33,16 @@ namespace SPID2Deconnecte.Properties {
                 return ((string)(this["SPID2DConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Driver={MySQL ODBC 8.0 Unicode Driver};server=localhost;uid=spid2d;pwd=cUqUmGQdK2" +
+            "feyuw;database=spid2d;port=3306")]
+        public string ConnectionStringSpid2d {
+            get {
+                return ((string)(this["ConnectionStringSpid2d"]));
+            }
+        }
     }
 }

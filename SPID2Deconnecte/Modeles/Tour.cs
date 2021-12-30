@@ -1,10 +1,7 @@
 ﻿using System;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("TOUR")]
-    [PrimaryKey("TOUR_ID", AutoIncrement = false)]
     internal class Tour
     {
         // "TOUR_ID"	NUMERIC(15, 0) NOT NULL,
@@ -57,6 +54,17 @@ namespace SPID2Deconnecte.Modeles
 
         // "DIV2_DIV_LB"	VARCHAR(32),
         public string DIV2_DIV_LB { get; set; }
+        /*
+        public int? GetIdTourByDivId(long divId)
+        {
+            MySqlCommand command = new MySqlCommand("SELECT TOUR_ID FROM TOUR WHERE DIV_ID = " + divId.ToString(), SingletonOutils.DATABASE);
 
+            MySqlDataReader reader = command.ExecuteReader();
+            if (reader == null)
+                return null;
+
+            return reader.GetInt32(0);
+        }
+        */
     }
 }

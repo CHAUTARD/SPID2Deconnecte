@@ -1,17 +1,16 @@
-﻿using PetaPoco;
-using SPID2Deconnecte.CRUD;
-using SPID2Deconnecte.Modeles;
+﻿
 using System;
 using System.IO;
 
 using System.Windows.Forms;
+using Dapper;
+using MySql.Data.MySqlClient;
+using SPID2Deconnecte.Modeles;
 
 namespace SPID2Deconnecte.Forms
 {
     public partial class FormImportLicencies : Form
     {
-        PetaPoco.Database __db = null;
-
         public FormImportLicencies()
         {
             InitializeComponent();
@@ -49,9 +48,6 @@ namespace SPID2Deconnecte.Forms
             Cursor.Current = Cursors.WaitCursor;
             ButtonImport.Enabled = false;
 
-            // Initialisation de la database
-            __db = new PetaPoco.Database("SqliteConnect");
-
             TextBoxMessage.Text = "Importation du fichier :" + Environment.NewLine;
 
             string filePath = TextBoxUploadFile.Text;
@@ -67,99 +63,116 @@ namespace SPID2Deconnecte.Forms
             // Nombre de ligne de la table
             int iNbr = 0;
 
+            string sQuery;
+
+            FromTxt fromTxt = new FromTxt();
+
             Club club = new Club();
-            LicencieCrud licencie = new LicencieCrud();
+            Licencie licencie = new Licencie();
 
-            // Read the file and display it line by line.  
-            foreach (string line in File.ReadLines(filePath))
+            // Initialisation de la database
+            MySqlConnection connection = DBUtils.GetDBConnection();
+
+            using (var tx = connection.BeginTransaction())
             {
-                if (bFirst)
+
+                // Read the file and display it line by line.  
+                foreach (string line in File.ReadLines(filePath))
                 {
-                    DecoupeLigneDate(line);
-                    bFirst = false;
-                }
-                else
-                {
-                    /*
-                        *           1         2
-                        * 0123456789012345678901234
-                        * ORGANISME           131
-                        * BAREME              24
-                        * TYPE_CLASSEMENT     33
-                        */
-                    if (counter == 0)
+                    if (bFirst)
                     {
-                        strTable = line.Substring(0, 20).Trim();
-                        iNbr = int.Parse(line.Substring(20));
-                        TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
-                        TextBoxMessage.Refresh();
-
-                        // Vidage table strTable ( CLUB, LICENCIE )
-                        try {
-                            __db.Execute("DELETE FROM " + strTable + ";");
-
-                            //__db.BeginTransaction();
-                        }
-                        catch
-                        {
-                            //__db.AbortTransaction();
-                            __db = null;
-                        }
-                        counter++;
+                        DecoupeLigneDate(line);
+                        bFirst = false;
                     }
                     else
                     {
-                        switch (strTable)
+                        /*
+                            *           1         2
+                            * 0123456789012345678901234
+                            * ORGANISME           131
+                            * BAREME              24
+                            * TYPE_CLASSEMENT     33
+                            */
+                        if (counter == 0)
                         {
-                            case "CLUB":
-                                club.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(club);
-                                }
-                                break;
-
-                            case "LICENCIE":
-                                licencie.FromTxt(line);
-                                break;
-                        }
-
-                        counter++;
-
-                        // Affichage d'un message tous les 100 enregistrements
-                        if (counter % 100 == 0)
-                        {
-                            TextBoxMessage.Text += " : " + counter;
-                            TextBoxMessage.Refresh();
-                        }
-
-                        // Importation de la table fini !
-                        if (counter > iNbr)
-                        {
-                            TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                            strTable = line.Substring(0, 20).Trim();
+                            iNbr = int.Parse(line.Substring(20));
+                            TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
                             TextBoxMessage.Refresh();
 
-                            counter = 0;
+                            // Vidage table strTable ( CLUB, LICENCIE )
+                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+
+                            counter++;
                         }
+                        else
+                        {
+                            switch (strTable)
+                            {
+                                case "CLUB":
+                                    club = fromTxt.ClubFromTxt(line);
+
+                                    /*
+                                    sQuery = "INSERT INTO `club` (`CLUB_ID`, `ORGA_ID`, `CLUB_NM`, `CLUB_LB_LONG`, `CLUB_LB_COURT`, `CLUB_FG`) VALUES( " +
+                                       "@CLUB_ID, @ORGA_ID, @CLUB_NM, @CLUB_LB_LONG, @CLUB_LB_COURT, @CLUB_FG );";
+                                    */
+                                    sQuery = DBUtils.BuildInsertSQL("club");
+                                    connection.Execute(sQuery, club);
+                                    break;
+
+                                case "LICENCIE":
+                                    licencie = fromTxt.LicencieFromTxt(line);
+
+                                    /*
+                                    sQuery = "INSERT INTO `licencie` (`LIC_ID`, `CAT_ID`, `CLUB_ID`, `CLU_CLUB_ID`, `TCLST_ID`, `PERS_LB_NOM`, `PERS_LB_PRENOM`, " +
+                                        "`PERS_FG_SEXE`, `PERS_DT_NAISSANCE`, `LIC_NB_LICENCE`, `LIC_FG_NATIONALITE`, `LIC_FG`, `LIC_FG_MODULE`, `LIC_FG_CERTIFICAT`, " +
+                                        "`LIC_DT_CERTIFICAT`, `LIC_DT_VALIDATION`, `LIC_NB_PLACE`, `LIC_NB_POINT`, `LIC_FG_ECHELON`, `LIC_NB_POINT_CF_PREC`, `LIC_NB_POINT_TOTAL_CF`, " +
+                                        "`LIC_NB_TRI_POINT_CF`, `LIC_BL_LOCAL`, `LIC_BL_DOUBLE`, `LIC_NB_TOTAL_POINT_DOUBLE`, `LIC_NB_POINT_TOUR_PREC_CF`, `EPRV_ID`, `DOUBLE_CLUB_ID`, `DOUBLE_CLU_CLUB_ID`) " +
+                                        "VALUES( @LIC_ID, @CAT_ID, @CLUB_ID, @CLU_CLUB_ID, @TCLST_ID, @PERS_LB_NOM, @PERS_LB_PRENOM, @PERS_FG_SEXE, @PERS_DT_NAISSANCE, @LIC_NB_LICENCE, " +
+                                        "@LIC_FG_NATIONALITE, @LIC_FG, @LIC_FG_MODULE, @LIC_FG_CERTIFICAT, @LIC_DT_CERTIFICAT, @LIC_DT_VALIDATION, @LIC_NB_PLACE, @LIC_NB_POINT, @LIC_FG_ECHELON, @LIC_NB_POINT_CF_PREC, @LIC_NB_POINT_TOTAL_CF, " +
+                                        "@LIC_NB_TRI_POINT_CF, @LIC_BL_LOCAL, @LIC_BL_DOUBLE, @LIC_NB_TOTAL_POINT_DOUBLE, @LIC_NB_POINT_TOUR_PREC_CF,@EPRV_ID, @DOUBLE_CLUB_ID, @DOUBLE_CLU_CLUB_ID );";
+                                    */
+                                    sQuery = DBUtils.BuildInsertSQL("licencie");
+                                    connection.Execute( sQuery, licencie);
+                                    break;
+                            }
+
+                            counter++;
+
+                            // Affichage d'un message tous les 100 enregistrements
+                            if (counter % 100 == 0)
+                            {
+                                TextBoxMessage.Text += " : " + counter;
+                                TextBoxMessage.Refresh();
+                            }
+
+                            // Importation de la table fini !
+                            if (counter > iNbr)
+                            {
+                                TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                                TextBoxMessage.Refresh();
+
+                                counter = 0;
+                            }
+                        }
+
                     }
-
                 }
-            }
 
-            if(__db != null)
-            {
-                try
+                if (connection != null)
                 {
-                    //__db.CompleteTransaction();
-                    __db = null;
+                    try
+                    {
+                        tx.Commit();
 
-                    TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
-                    TextBoxMessage.Refresh();
-                }
-                catch 
-                {
-                    MessageBox.Show("Abort");
-                    //__db.AbortTransaction();
+                        TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
+                        TextBoxMessage.Refresh();
+                    }
+                    catch
+                    {
+                        tx.Commit();
+                        MessageBox.Show("Information non sauvées !");
+                    }
                 }
             }
 

@@ -1,11 +1,7 @@
 ﻿using System;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("PARTIE")]
-    [PrimaryKey("PARTI_ID", AutoIncrement = false)]
-
     internal class Partie
     {
         // "PARTI_ID"	NUMERIC(15, 0) NOT NULL,

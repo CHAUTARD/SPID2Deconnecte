@@ -10,5 +10,13 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SPIDD2.mdf;Integrated Security=True;Connect Timeout=30</Value>
     </Setting>
+    <Setting Name="ConnectionStringSpid2d" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Driver={MySQL ODBC 8.0 Unicode Driver};server=localhost;uid=spid2d;pwd=cUqUmGQdK2feyuw;database=spid2d;port=3306&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.Odbc&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Driver={MySQL ODBC 8.0 Unicode Driver};server=localhost;uid=spid2d;pwd=cUqUmGQdK2feyuw;database=spid2d;port=3306</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

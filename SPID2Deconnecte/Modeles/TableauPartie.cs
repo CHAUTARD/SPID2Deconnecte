@@ -1,10 +1,7 @@
 ﻿using System;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("TABLEAU_PARTIE")]
-    [PrimaryKey("TABPART_ID_TABLEAU", AutoIncrement = false)]
     internal class TableauPartie
     {
         // "TABPART_ID_TABLEAU"	NUMERIC(15, 0) NOT NULL,
@@ -54,5 +51,5 @@ namespace SPID2Deconnecte.Modeles
 
         // "TABPART_BL_CLST"	NUMERIC(1, 0) default 0,
         public int? TABPART_BL_CLST { get; set; }
-}
+    }
 }

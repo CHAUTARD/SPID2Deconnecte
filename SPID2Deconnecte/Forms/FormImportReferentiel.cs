@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
 using SPID2Deconnecte.Modeles;
+using MySql.Data.MySqlClient;
+using Dapper;
 
 namespace SPID2Deconnecte
 {
@@ -55,6 +57,8 @@ namespace SPID2Deconnecte
             int counter = 0;
 
             string strTable = "";
+            string sQuery;
+
             // Premiére ligne du fichier
             bool bFirst = true;
 
@@ -73,150 +77,132 @@ namespace SPID2Deconnecte
             PartieRef partieRef = new PartieRef();
             TypeClassement typeClassement = new TypeClassement();
 
-            // Read the file and display it line by line.  
-            foreach (string line in File.ReadLines(filePath))
+            FromTxt fromTxt = new FromTxt();
+
+            // Initialisation de la database
+            MySqlConnection connection = DBUtils.GetDBConnection();
+
+            using (var tx = connection.BeginTransaction())
             {
-                if (bFirst)
+                // Read the file and display it line by line.  
+                foreach (string line in File.ReadLines(filePath))
                 {
-                    DecoupeLigneDate(line);
-                    bFirst = false;
-                }
-                else 
-                { 
-                    /*
-                        *           1         2
-                        * 0123456789012345678901234
-                        * ORGANISME           131
-                        * BAREME              24
-                        * TYPE_CLASSEMENT     33
-                        */
-                    if (counter == 0)
+                    if (bFirst)
                     {
-                        strTable = line.Substring(0, 20).Trim();
-                        iNbr = int.Parse(line.Substring(20));
-                        TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
-                        TextBoxMessage.Refresh();
-                           
-                        // Vidage table ORGANISME
-                        using (var db = new PetaPoco.Database("SqliteConnect"))
-                        {
-                            db.Execute("DELETE FROM " + strTable + ";");
-                            db.Execute("VACUUM;");
-                        }
-                        counter++;
+                        DecoupeLigneDate(line);
+                        bFirst = false;
                     }
                     else
                     {
-                        switch(strTable)
+                        /*
+                            *           1         2
+                            * 0123456789012345678901234
+                            * ORGANISME           131
+                            * BAREME              24
+                            * TYPE_CLASSEMENT     33
+                            */
+                        if (counter == 0)
                         {
-                            case "ORGANISME":
-                                organisme.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(organisme);
-                                }
-                                break;
-
-                            case "BAREME":
-                                bareme.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(bareme);
-                                }
-                                break;
-
-                            case "CAT_AGE_GROUP":
-                                catAge.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(catAge);
-                                }
-                                break;
-
-                            case "CAT":
-                                categorie.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(categorie);
-                                }
-                                break;
-
-                            case "BAREME_DETAIL":
-                                baremeDetail.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(baremeDetail);
-                                }
-                                break;
-
-                            case "GRILLE_RENCONTRE":
-                                grilleRencontre.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(grilleRencontre);
-                                }
-                                break;
-
-                            case "GRILLE_DETAIL":
-                                grilleDetail.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(grilleDetail);
-                                }
-                                break;
-
-                            case "TABLEAU_REF":
-                                tableauRef.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(tableauRef);
-                                }
-                                break;
-
-                            case "NIVEAU_REF":
-                                niveauRef.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(niveauRef);
-                                }
-                                break;
-
-                            case "PARTIE_REF":
-                                partieRef.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(partieRef);
-                                }
-                                break;
-
-                            case "TYPE_CLASSEMENT":
-                                typeClassement.FromTxt(line);
-                                using (var db = new PetaPoco.Database("SqliteConnect"))
-                                {
-                                    db.Insert(typeClassement);
-                                }
-                                break;
-                        }
-
-                        counter++;
-
-                        // Affichage d'un message tous les 100 enregistrements
-                        if(counter % 100 == 0)
-                        {
-                            TextBoxMessage.Text += " : " + counter;
-                            TextBoxMessage.Refresh();
-                        }
-
-                        // Importation de la table fini !
-                        if (counter > iNbr)
-                        {
-                            TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                            strTable = line.Substring(0, 20).Trim();
+                            iNbr = int.Parse(line.Substring(20));
+                            TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
                             TextBoxMessage.Refresh();
 
-                            counter = 0;
+                            // Vidage table xxxx
+                            connection.Execute("DROP TABLE IF EXISTS " + strTable + ";");
+                            counter++;
                         }
+                        else
+                        {
+                            switch (strTable)
+                            {
+                                case "ORGANISME":
+                                    organisme = fromTxt.OrganismeFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, organisme);
+                                    break;
+
+                                case "BAREME":
+                                    bareme = fromTxt.BaremeFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, bareme);
+                                    break;
+
+                                case "CAT_AGE_GROUP":
+                                    catAge = fromTxt.CategorieAgeFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, catAge);
+                                    break;
+
+                                case "CAT":
+                                    categorie = fromTxt.CategorieFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, categorie);
+                                    break;
+
+                                case "BAREME_DETAIL":
+                                    baremeDetail = fromTxt.BaremeDetailFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, baremeDetail);
+                                    break;
+
+                                case "GRILLE_RENCONTRE":
+                                    grilleRencontre = fromTxt.GrilleRencontreFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, grilleRencontre);
+                                    break;
+
+                                case "GRILLE_DETAIL":
+                                    grilleDetail = fromTxt.GrilleDetailFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, grilleDetail);
+                                    break;
+
+                                case "TABLEAU_REF":
+                                    tableauRef = fromTxt.TableauRefFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, tableauRef);
+                                    break;
+
+                                case "NIVEAU_REF":
+                                    niveauRef = fromTxt.NiveauRefFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, niveauRef);
+                                    break;
+
+                                case "PARTIE_REF":
+                                    partieRef = fromTxt.PartieRefFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, partieRef);
+                                    break;
+
+                                case "TYPE_CLASSEMENT":
+                                    typeClassement = fromTxt.TypeClassementFromTxt(line);
+                                    sQuery = DBUtils.BuildInsertSQL(strTable);
+                                    connection.Execute(sQuery, typeClassement);
+                                    break;
+                            }
+
+                            counter++;
+
+                            // Affichage d'un message tous les 100 enregistrements
+                            if (counter % 100 == 0)
+                            {
+                                TextBoxMessage.Text += " : " + counter;
+                                TextBoxMessage.Refresh();
+                            }
+
+                            // Importation de la table fini !
+                            if (counter > iNbr)
+                            {
+                                TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
+                                TextBoxMessage.Refresh();
+
+                                counter = 0;
+                            }
+                        }
+
                     }
-
                 }
             }
 

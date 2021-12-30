@@ -1,13 +1,18 @@
-﻿using System;
+﻿
+using System;
+using System.Linq;
 using System.Windows.Forms;
-using SPID2Deconnecte.CRUD;
+using Dapper;
+using MySql.Data.MySqlClient;
+using SPID2Deconnecte.Modeles;
+
 
 namespace SPID2Deconnecte.Forms
 {
     public partial class FormEpreuve : Form
     {
         // Epreuve sélectionné dans la TreeView
-        private EpreuveCrud epreuveCrud = new EpreuveCrud();
+        private Epreuve epreuve = new Epreuve();
 
         public FormEpreuve()
         {
@@ -21,18 +26,25 @@ namespace SPID2Deconnecte.Forms
             Tag = sTag;           
         }
 
-        internal void SetData(EpreuveCrud treeEpreuve)
+        internal void SetData(Epreuve treeEpreuve)
         {
-            epreuveCrud = treeEpreuve;
+            epreuve = treeEpreuve;
 
             // Recherche de l'organisme
-            OrganismeCrud organismeCrud = new OrganismeCrud(epreuveCrud.ORGA_ID);
+            Organisme organisme;
 
-            TextBoxCD.Text = epreuveCrud.EPRV_CD;
-            TextBoxCode.Text = epreuveCrud.EPRV_LB_COURT;
-            TextBoxOrganisme.Text = organismeCrud.ORGA_LB;
-            TextBoxLibelle.Text = epreuveCrud.EPRV_LB;
-            RichTextBoxCommentaire.Text= epreuveCrud.EPRV_CM;
+            using (MySqlConnection connection = DBUtils.GetDBConnection())
+            {
+                organisme = connection.Query<Organisme>("SELECT * FROM organisme WHERE ORGA_ID = " + epreuve.ORGA_ID).Single();
+
+                connection.Close();
+            }
+
+            TextBoxCD.Text = epreuve.EPRV_CD;
+            TextBoxCode.Text = epreuve.EPRV_LB_COURT;
+            TextBoxOrganisme.Text = organisme.ORGA_LB;
+            TextBoxLibelle.Text = epreuve.EPRV_LB;
+            RichTextBoxCommentaire.Text= epreuve.EPRV_CM;
         }
 
         private void ButtonAbandon_Click(object sender, EventArgs e)
@@ -42,19 +54,26 @@ namespace SPID2Deconnecte.Forms
 
         private void ButtonValider_Click(object sender, EventArgs e)
         {
+            string sQuery;
+
             // Mise a jour ou sauvegarde
-            epreuveCrud.EPRV_CD = TextBoxCD.Text;
-            epreuveCrud.EPRV_LB_COURT = TextBoxCode.Text.Trim();
-            epreuveCrud.EPRV_LB = TextBoxLibelle.Text.Trim();
-            epreuveCrud.EPRV_CM = RichTextBoxCommentaire.Text.Trim();
-            
-            if("CREER".CompareTo(Tag) == 0)
+            epreuve.EPRV_CD = TextBoxCD.Text;
+            epreuve.EPRV_LB_COURT = TextBoxCode.Text.Trim();
+            epreuve.EPRV_LB = TextBoxLibelle.Text.Trim();
+            epreuve.EPRV_CM = RichTextBoxCommentaire.Text.Trim();
+
+            // Initialisation de la database
+            MySqlConnection connection = DBUtils.GetDBConnection();
+
+            if ("CREER".CompareTo(Tag) == 0)
             {
-                epreuveCrud.Insert();
+                sQuery = DBUtils.BuildInsertSQL("epreuve");
+                connection.Execute(sQuery, epreuve);
             }
             else
             {
-                epreuveCrud.Update();
+                sQuery = DBUtils.BuildUpdateSQL( "epreuve", "EPRV_CD = `" + epreuve.EPRV_CD + "`");
+                connection.Execute(sQuery, epreuve);
             }
 
             MessageBox.Show("Sauvegarde effectuée", "Epreuve");

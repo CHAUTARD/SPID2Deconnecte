@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dapper;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -46,23 +48,20 @@ namespace SPID2Deconnecte.Forms
 
             try
             {
-                string script = File.ReadAllText(Directory.GetCurrentDirectory() + SingletonOutils.REP_DB + Path.DirectorySeparatorChar + "SPID2D_VIDE.sql");
-
-                // split script on GO command
-                IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
-                using (var db = new PetaPoco.Database("SqliteConnect"))
+                string sqlScript = File.ReadAllText(Directory.GetCurrentDirectory() + SingletonOutils.REP_DB + Path.DirectorySeparatorChar + "SPID2D_VIDE.sql");
+       
+                using (MySqlConnection connection = DBUtils.GetDBConnection())
                 {
-                    //Connection.Open();
-                    foreach (string commandString in commandStrings)
+                    using (var tx = connection.BeginTransaction())
                     {
-                        if (!string.IsNullOrWhiteSpace(commandString.Trim()))
-                        {
-                            db.ExecuteNonQueryProcAsync(commandString);
-                        }
+                        connection.Execute("SET PARSEONLY ON " + sqlScript);
+
+                        tx.Commit();
                     }
-                    //Connection.Close();
+                    connection.Close();
                 }
+
+
                 MessageBox.Show("Mise à jour de la base terminée !");
 
                 Cursor.Current = Cursors.Default;

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using PetaPoco;
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("TABLEAU")]
-    [PrimaryKey("TAB_ID", AutoIncrement = false)]
-
     internal class Tableau
     {
         // TAB_ID"	NUMERIC(15, 0) NOT NULL,

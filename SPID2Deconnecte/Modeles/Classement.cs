@@ -1,11 +1,8 @@
 ﻿using System;
-using PetaPoco;
+
 
 namespace SPID2Deconnecte.Modeles
 {
-    [TableName("CLASSEMENT")]
-    [PrimaryKey("CLST_ID", AutoIncrement = false)]
-
     internal class Classement
     {
         // "CLST_ID"	NUMERIC(15, 0) NOT NULL,
@@ -58,5 +55,6 @@ namespace SPID2Deconnecte.Modeles
 
         // "CLST_RANG_FORFAIT"	CHAR(2)
         public string CLST_RANG_FORFAIT { get; set; }
+
     }
 }

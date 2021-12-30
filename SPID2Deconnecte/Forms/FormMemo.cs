@@ -22,32 +22,16 @@ namespace SPID2Deconnecte.Forms
         private void FormMemo_Load(object sender, EventArgs e)
         {
             // Lecture de l'enregistrement de la table MEMO
-            using (var db = new PetaPoco.Database("SqliteConnect"))
-            {
-                // Recherche du joueur dans la table des licenciers
-                Memo a = db.FirstOrDefault<Memo>("Select * FROM MEMO LIMIT 1");
-                if (a != null)
-                {
-                    TextBoxMemo.Text = a.MEMO;
-                }
-            }
+            Memo memo = new Memo();
+            TextBoxMemo.Text = memo.Read();
         }
 
         private void FormMemo_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Suppression des enregistrement si il existent
             // Sauvegarde des informations
-            using (var db = new PetaPoco.Database("SqliteConnect"))
-            {
-                db.Execute("DELETE FROM MEMO;");
-
-                string str = TextBoxMemo.Text;
-                if (str.Trim().Length > 0)
-                {
-                    Memo memo = new Memo(str);
-                    db.Insert("MEMO", "MEMO_ID", memo);
-                }
-            }
+            Memo memo = new Memo();
+            memo.Insert(TextBoxMemo.Text);
         }
     }
 }

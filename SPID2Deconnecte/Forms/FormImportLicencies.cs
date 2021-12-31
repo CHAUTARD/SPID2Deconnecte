@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 using System.Windows.Forms;
@@ -63,110 +64,125 @@ namespace SPID2Deconnecte.Forms
             // Nombre de ligne de la table
             int iNbr = 0;
 
-            string sQueryClub = DBUtils.BuildInsertSQL("club");
-            string sQueryLicencie = DBUtils.BuildInsertSQL("licencie");
+            string sQueryClub = "INSERT INTO `club` (CLUB_ID, CLUB_NM, CLUB_LB_LONG, CLUB_LB_COURT, CLUB_FG) VALUES(";
+            string sQueryLicencie = "INSERT INTO `licencie` (LIC_ID, CAT_ID, CLUB_ID, CLU_CLUB_ID, TCLST_ID, PERS_LB_NOM, PERS_LB_PRENOM, PERS_FG_SEXE, PERS_DT_NAISSANCE, LIC_NB_LICENCE, LIC_FG_NATIONALITE, LIC_FG, LIC_FG_MODULE, LIC_FG_CERTIFICAT, LIC_DT_CERTIFICAT, LIC_DT_VALIDATION, LIC_NB_PLACE, LIC_NB_POINT, LIC_FG_ECHELON ) VALUES (";
+            string sValue;
 
-            FromTxt fromTxt = new FromTxt();
+            List<DBUtils.TypeSize> TypeSizeClub = new List<DBUtils.TypeSize>();
+            TypeSizeClub.Add(new DBUtils.TypeSize('N', 15 ));
+            TypeSizeClub.Add(new DBUtils.TypeSize('S', 8));
+            TypeSizeClub.Add(new DBUtils.TypeSize('S', 32));
+            TypeSizeClub.Add(new DBUtils.TypeSize('S', 15));
+            TypeSizeClub.Add(new DBUtils.TypeSize('S', 1));
 
-            Club club = new Club();
-            Licencie licencie = new Licencie();
+            List<DBUtils.TypeSize> TypeSizeLicencie = new List<DBUtils.TypeSize>();
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 64));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('D', 10));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 8));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('D', 10));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('D', 10));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 8));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 8));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 1));
+            /*
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 64));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 64));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 64));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 1));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 8));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('S', 64));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            TypeSizeLicencie.Add(new DBUtils.TypeSize('N', 15));
+            */
 
             // Initialisation de la database
             MySqlConnection connection = DBUtils.GetDBConnection();
 
-            using (var transaction = connection.BeginTransaction())
+            // Read the tempCsvFile and display it line by line.  
+            foreach (string line in File.ReadLines(filePath))
             {
-
-                // Read the file and display it line by line.  
-                foreach (string line in File.ReadLines(filePath))
+                if (bFirst)
                 {
-                    if (bFirst)
+                    DecoupeLigneDate(line);
+                    bFirst = false;
+                }
+                else
+                {
+                    /*
+                        *           1         2
+                        * 0123456789012345678901234
+                        * ORGANISME           131
+                        * BAREME              24
+                        * TYPE_CLASSEMENT     33
+                        */
+                    if (counter == 0)
                     {
-                        DecoupeLigneDate(line);
-                        bFirst = false;
+                        strTable = line.Substring(0, 20).Trim();
+                        iNbr = int.Parse(line.Substring(20));
+                        TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
+                        TextBoxMessage.Refresh();
+
+                        // Vidage table strTable ( CLUB, LICENCIE )
+                        connection.Execute("TRUNCATE `" + strTable.ToLower() + "`;");
+
+                        counter++;
                     }
                     else
                     {
-                        /*
-                            *           1         2
-                            * 0123456789012345678901234
-                            * ORGANISME           131
-                            * BAREME              24
-                            * TYPE_CLASSEMENT     33
-                            */
-                        if (counter == 0)
+                        switch (strTable)
                         {
-                            strTable = line.Substring(0, 20).Trim();
-                            iNbr = int.Parse(line.Substring(20));
-                            TextBoxMessage.Text += "Table : " + strTable + " - Nombre de ligne : " + iNbr;
+                            case "CLUB":
+                                sValue = DBUtils.Split(line, TypeSizeClub);
+                                connection.Execute(sQueryClub + sValue + ");");
+                                break;
+
+                            case "LICENCIE":
+                                sValue = DBUtils.Split(line, TypeSizeLicencie);
+                                connection.Execute( sQueryLicencie + sValue + ");");
+                                break;
+                        }
+
+                        counter++;
+
+                        // Affichage d'un message tous les 100 enregistrements
+                        if (counter % 100 == 0)
+                        {
+                            TextBoxMessage.Text += " : " + counter;
+                            TextBoxMessage.Refresh();
+                        }
+
+                        // Importation de la table fini !
+                        if (counter > iNbr)
+                        {
+                            TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
                             TextBoxMessage.Refresh();
 
-                            // Vidage table strTable ( CLUB, LICENCIE )
-                            connection.Execute("TRUNCATE `" + strTable.ToLower() + "`;");
+                            counter = 0;
 
-                            counter++;
+                            TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
+                            TextBoxMessage.Refresh();
                         }
-                        else
-                        {
-                            switch (strTable)
-                            {
-                                case "CLUB":
-                                    club = fromTxt.ClubFromTxt(line);                                 
-                                    connection.Execute(sQueryClub, club);
-                                    break;
-
-                                case "LICENCIE":
-                                    licencie = fromTxt.LicencieFromTxt(line);
-                                    connection.Execute( sQueryLicencie, licencie);
-                                    break;
-                            }
-
-                            counter++;
-
-                            // Affichage d'un message tous les 100 enregistrements
-                            if (counter % 100 == 0)
-                            {
-                                TextBoxMessage.Text += " : " + counter;
-                                TextBoxMessage.Refresh();
-                            }
-
-                            // Importation de la table fini !
-                            if (counter > iNbr)
-                            {
-                                TextBoxMessage.Text += " : Terminé." + Environment.NewLine;
-                                TextBoxMessage.Refresh();
-
-                                counter = 0;
-                            }
-                        }
-
-                    }
-                }
-
-                if (connection != null)
-                {
-                    try
-                    {
-                        transaction.Commit();
-
-                        TextBoxMessage.Text += "Traitement bien Terminé." + Environment.NewLine;
-                        TextBoxMessage.Refresh();
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-
-                        TextBoxMessage.Text += "Erreur lors du traitement !" + Environment.NewLine;
-                        TextBoxMessage.Refresh();
-
-                        MessageBox.Show("Information non sauvées !");
                     }
                 }
             }
 
+            connection.Close();
+
             // Set cursor as default arrow
             Cursor.Current = Cursors.Default;
-
         }
 
         private void DecoupeLigneDate(string line)

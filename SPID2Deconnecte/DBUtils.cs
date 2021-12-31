@@ -8,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace SPID2Deconnecte
@@ -192,5 +193,85 @@ namespace SPID2Deconnecte
             }
         }
         */
+        public readonly struct TypeSize
+        {
+            public char cType { get; }
+            public int iSize { get; }
+
+            public TypeSize(char c, int i)
+            {
+                cType = c;
+                iSize = i;
+            }
+        }
+
+        private static string MySQLEscape(string str)
+        {
+            return Regex.Replace(str, @"[\x00'""\b\n\r\t\cZ\\%_]", delegate (Match match) {
+                    string v = match.Value;
+                    switch (v)
+                    {
+                        case "\x00":            // ASCII NUL (0x00) character
+                            return "\\0";
+                        case "\b":              // BACKSPACE character
+                            return "\\b";
+                        case "\n":              // NEWLINE (linefeed) character
+                            return "\\n";
+                        case "\r":              // CARRIAGE RETURN character
+                            return "\\r";
+                        case "\t":              // TAB
+                            return "\\t";
+                        case "\u001A":          // Ctrl-Z
+                            return "\\Z";
+                        default:
+                            return "\\" + v;
+                    }
+            });
+        }
+
+        public static string Split(string line, List<TypeSize> TypeSizes)
+        {
+            string str = string.Empty;
+            string s;
+            int iPos = 0;
+            bool bFirst = true;
+
+            foreach(TypeSize typeSize in TypeSizes)
+            {
+                if (bFirst)
+                    bFirst = false;
+                else
+                    str += ",";
+
+                switch (typeSize.cType)
+                {
+                    case 'S': // String
+                        str += '"';
+                        str += MySQLEscape(line.Substring(iPos, typeSize.iSize).Trim());
+                        str += '"';
+                        break;
+
+                    case 'N': // Integer
+                        s = line.Substring(iPos, typeSize.iSize).Trim();
+                        if (s.Length == 0)
+                            str += "null";
+                        else
+                            str += line.Substring(iPos, typeSize.iSize).Trim();
+                        break;
+
+                    case 'D': // Date 10/06/2020 -> 2020-06-10
+                        s = line.Substring(iPos + 6, 4) + '-' + line.Substring(iPos + 3, 2) + '-' + line.Substring(iPos, 2);
+                        if (s.CompareTo("    -  -  ") == 0)
+                            str += "null";
+                        else
+                            str += "'" + s + "'";
+                        break;
+                }
+
+                iPos += typeSize.iSize;
+            }
+
+            return str;
+        }
     }
 }

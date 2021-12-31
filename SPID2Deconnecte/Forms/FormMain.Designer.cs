@@ -444,7 +444,7 @@
             this.TsmiCreerDividion,
             this.TsmiSupprimerEpreuve});
             this.contextMenuEpreuve.Name = "contextMenuEpreuve";
-            this.contextMenuEpreuve.Size = new System.Drawing.Size(182, 92);
+            this.contextMenuEpreuve.Size = new System.Drawing.Size(182, 70);
             // 
             // TsmiConsulter
             // 

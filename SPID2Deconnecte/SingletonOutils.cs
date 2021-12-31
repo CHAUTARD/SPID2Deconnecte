@@ -30,7 +30,7 @@ namespace SPID2Deconnecte
 		public static string DB_EXTENSION = ".SingletonOutils.DATABASE";
 		public static string DB_NAME = DB_FILE + DB_EXTENSION;
 
-		public static string CONNECTION_STRING = Directory.GetCurrentDirectory() + REP_DB + Path.DirectorySeparatorChar + DB_NAME;
+		// public static string CONNECTION_STRING = Directory.GetCurrentDirectory() + REP_DB + Path.DirectorySeparatorChar + DB_NAME;
 
 		public static string TEXT_SEPARATOR = new String('-', 60) + Environment.NewLine;
 

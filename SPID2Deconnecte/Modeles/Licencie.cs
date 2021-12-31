@@ -56,7 +56,7 @@ namespace SPID2Deconnecte.Modeles
         public int? LIC_NB_PLACE { get; set; }
 
         // NUMERIC(7,3)
-        public string LIC_NB_POINT { get; set; }
+        public decimal LIC_NB_POINT { get; set; }
 
         // CHAR(1)
         public string LIC_FG_ECHELON { get; set; }
@@ -77,7 +77,7 @@ namespace SPID2Deconnecte.Modeles
         public int LIC_BL_DOUBLE { get; set; }
 
         // NUMERIC(7,3)
-        public string LIC_NB_TOTAL_POINT_DOUBLE { get; set; }
+        public decimal LIC_NB_TOTAL_POINT_DOUBLE { get; set; }
 
         // VARCHAR(64) 
         public string LIC_NB_POINT_TOUR_PREC_CF { get; set; }

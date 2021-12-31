@@ -41,8 +41,6 @@ namespace SPID2Deconnecte
             // Titre de la fenêtre
             Text += " - Version : " + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
-            MajTree();
-
             // Gestion de la division séléctionnée
             NodeSel = null;
             boldFont = new Font(TreeViewEpreuve.Font, FontStyle.Bold);
@@ -66,33 +64,45 @@ namespace SPID2Deconnecte
                 IEnumerable<Epreuve> epreuves = connection.Query<Epreuve>("SELECT * FROM EPREUVE ORDER BY EPRV_LB");
 
                 foreach (Epreuve epreuve in epreuves)
-                { 
-                    tnEpreuve = AddTreeViewNode(tnRoot.Nodes, epreuve.EPRV_LB, IM_EPREUVE, epreuve);
-
-                    // Rechercher les divisions pour cet épreuve
-                    IEnumerable<Division> divisions = connection.Query<Division>(string.Format("SELECT DIV_ID, DIV_LB, ORGA_LB FROM DIVISION LEFT JOIN ORGANISME USING(ORGA_ID) WHERE EPRV_ID= {0} ORDER BY DIV_LB;", epreuve.EPRV_ID));
-                    foreach(Division division in divisions)
+                {
+                    if (epreuve.EPRV_ID > 0)
                     {
-                        Organisme organisme = (Organisme)connection.Query<Organisme>("SELECT * FROM ORGANISME WHERE ORGA_ID = " + division.ORGA_ID);
-                        tnDivision = AddTreeViewNode(tnEpreuve.Nodes, string.Format("{0} ({1}", division.DIV_LB, organisme.ORGA_LB), IM_DIVISION_OFF, division);
+                        tnEpreuve = AddTreeViewNode(tnRoot.Nodes, epreuve.EPRV_LB, IM_EPREUVE, epreuve);
 
-                        // Recherche les joueurs pour cet division
-                        // EPREUVE -> DIVISION -> TOUR -> INSCRIT -> JOUEUR -> LICENCIE
-                        Tour tour = (Tour)connection.Query<Tour>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + division.DIV_ID.ToString());
-                            
-                        if (tour.TOUR_ID > 0)
+                        // Rechercher les divisions pour cet épreuve
+                        IEnumerable<Division> divisions = connection.Query<Division>(string.Format("SELECT * FROM DIVISION LEFT JOIN ORGANISME USING(ORGA_ID) WHERE EPRV_ID= {0} ORDER BY DIV_LB;", epreuve.EPRV_ID));
+                        foreach (Division division in divisions)
                         {
-                            Inscription inscription = (Inscription)connection.Query<Inscription>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + tour.TOUR_ID.ToString());
+                            Organisme organisme = connection.Query<Organisme>("SELECT * FROM ORGANISME WHERE ORGA_ID = " + division.ORGA_ID).Single();
+                            tnDivision = AddTreeViewNode(tnEpreuve.Nodes, string.Format("{0} ({1}", division.DIV_LB, organisme.ORGA_LB), IM_DIVISION_OFF, division);
 
-                            Joueur joueur = (Joueur)connection.Query<Joueur>("SELECT * FROM `joueur` WHERE JOUE_ID = " + inscription.JOUE_ID.ToString());
+                            // Recherche les joueurs pour cet division
+                            // EPREUVE -> DIVISION -> TOUR -> INSCRIT -> JOUEUR -> LICENCIE
+                            Tour tour = (Tour)connection.Query<Tour>("SELECT * FROM TOUR WHERE DIV_ID = " + division.DIV_ID.ToString()).Single();
 
-                            Licencie licencie = (Licencie)connection.Query<Licencie>("SELECT * FROM `licencie` WHERE LIC_ID = " + joueur.LIC_ID.ToString()); 
-
-                            if (licencie != null)
+                            if (tour.TOUR_ID > 0)
                             {
-                                int img = joueur.PRESENT ? IM_PRESENT_ON : IM_PRESENT_OFF;
+                                IEnumerable <Inscription> inscriptions = connection.Query<Inscription>("SELECT * FROM INSCRIPTION WHERE TOUR_ID = " + tour.TOUR_ID.ToString());
 
-                                AddTreeViewNode(tnDivision.Nodes, string.Format("{0} {1}", licencie.PERS_LB_NOM, licencie.PERS_LB_PRENOM), img, joueur);
+                                foreach( Inscription insc in inscriptions)
+                                { 
+                                    // Recherche des joueurs inscripts pour le tour
+                                    Joueur joueur = (Joueur)connection.Query<Joueur>("SELECT * FROM `joueur` WHERE JOUE_ID = " + insc.JOUE_ID.ToString()).Single();
+
+                                    try
+                                    {
+                                        Licencie licencie = (Licencie)connection.Query<Licencie>("SELECT * FROM `licencie` WHERE LIC_ID = " + joueur.LIC_ID.ToString()).Single();
+
+                                        if (licencie != null)
+                                        {
+                                            int img = joueur.PRESENT ? IM_PRESENT_ON : IM_PRESENT_OFF;
+
+                                            AddTreeViewNode(tnDivision.Nodes, string.Format("{0} {1}", licencie.PERS_LB_NOM, licencie.PERS_LB_PRENOM), img, joueur);
+                                        }
+                                    }
+                                    catch
+                                    { }
+                                }
                             }
                         }
                     }
@@ -102,7 +112,6 @@ namespace SPID2Deconnecte
                 connection.Dispose();
             }
                 
-
             TreeViewEpreuve.EndUpdate();
 
             TreeViewEpreuve.ExpandAll();
@@ -214,6 +223,9 @@ namespace SPID2Deconnecte
         private void ToolStripButtonEpreuve_Click(object sender, EventArgs e)
         {
             groupBoxEpreuve.Visible = !groupBoxEpreuve.Visible;
+
+            if(groupBoxEpreuve.Visible)
+                MajTree();
         }
 
         private void TsmiEpreuves_Click(object sender, EventArgs e)
@@ -223,10 +235,6 @@ namespace SPID2Deconnecte
 
         private void TreeViewEpreuve_MouseDown(object sender, MouseEventArgs e)
         {
-            // Make sure this is the right button.
-            if (e.Button != MouseButtons.Right) return;
-
-
             // Select this node.
             TreeNode node_here = TreeViewEpreuve.GetNodeAt(e.X, e.Y);
             TreeViewEpreuve.SelectedNode = node_here;
@@ -234,25 +242,40 @@ namespace SPID2Deconnecte
             // See if we got a node.
             if (node_here == null) return;
 
-            // See what kind of object this is and
-            // display the appropriate popup menu.
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    if (node_here.Tag is Joueur)
+                    {
+                        // Présent ou Basent Joueur            // Mise a jour de la table
+                        Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
+                        
+                        SetPresent(joueur, !joueur.PRESENT);
+                    }
+                    break;
+                
+                case MouseButtons.Right: // Make sure this is the right button.
+                    // See what kind of object this is and
+                    // display the appropriate popup menu.
 
-            if (node_here.Tag is FactoryData)
-            {
-                contextMenuRoot.Show(TreeViewEpreuve, new Point(e.X, e.Y));
-            }
-            else if (node_here.Tag is Epreuve)
-            {
-                contextMenuEpreuve.Show(TreeViewEpreuve, new Point(e.X, e.Y));
-            }
-            else if(node_here.Tag is DivisionOrganisation)
-            {
-                contextMenuDivision.Show(TreeViewEpreuve, new Point(e.X, e.Y));
-            }
-            else if (node_here.Tag is Joueur)
-            {
-                // Affichage du menu contextuel
-                contextMenuPresent.Show( TreeViewEpreuve, new Point(e.X, e.Y));
+                    if (node_here.Tag is FactoryData)
+                    {
+                        contextMenuRoot.Show(TreeViewEpreuve, new Point(e.X, e.Y));
+                    }
+                    else if (node_here.Tag is Epreuve)
+                    {
+                        contextMenuEpreuve.Show(TreeViewEpreuve, new Point(e.X, e.Y));
+                    }
+                    else if (node_here.Tag is DivisionOrganisation)
+                    {
+                        contextMenuDivision.Show(TreeViewEpreuve, new Point(e.X, e.Y));
+                    }
+                    else if (node_here.Tag is Joueur)
+                    {
+                        // Affichage du menu contextuel
+                        contextMenuPresent.Show(TreeViewEpreuve, new Point(e.X, e.Y));
+                    }
+                    break;
             }
         }
         #endregion
@@ -267,24 +290,36 @@ namespace SPID2Deconnecte
 
         private void TsmiPresent_Click(object sender, EventArgs e)
         {
-            // Mise a jour de la table
-            Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
-            joueur.SetPresent(1);
+            SetPresent(TreeViewEpreuve.SelectedNode.Tag as Joueur, true);
+        }
 
-            // Mise a jour de l'image
-            TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_ON;
-            TreeViewEpreuve.SelectedNode.SelectedImageIndex = IM_PRESENT_ON;
+        private void SetPresent(Joueur joueur, bool bPresent)
+        {
+            joueur.PRESENT = bPresent;
+
+            // Mise à jour de la table pour présent
+            joueur.MajPresent();
+
+            if(bPresent)
+            {
+                // Mise a jour de l'image
+                TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_ON;
+                TreeViewEpreuve.SelectedNode.SelectedImageIndex = IM_PRESENT_ON;
+            }
+            else 
+            {
+                // Mise a jour de l'image
+                TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_OFF;
+                TreeViewEpreuve.SelectedNode.SelectedImageIndex = IM_PRESENT_OFF;
+            }
+
+            // Sauvegarde des modifications
+            TreeViewEpreuve.SelectedNode.Tag = joueur;
         }
 
         private void TsmiAbsent_Click(object sender, EventArgs e)
         {
-            // Mise a jour de la table
-            Joueur joueur = TreeViewEpreuve.SelectedNode.Tag as Joueur;
-            joueur.SetPresent(0);
-
-            // Mise a jour de l'image
-            TreeViewEpreuve.SelectedNode.ImageIndex = IM_PRESENT_OFF;
-            TreeViewEpreuve.SelectedNode.SelectedImageIndex = IM_PRESENT_OFF;
+            SetPresent(TreeViewEpreuve.SelectedNode.Tag as Joueur, false);
         }
 
         private void TsmiSupprimerJoueur_Click(object sender, EventArgs e)
@@ -440,5 +475,6 @@ namespace SPID2Deconnecte
 
             frm.Dispose();
         }
+
     }
 }

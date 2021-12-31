@@ -36,14 +36,13 @@ namespace SPID2Deconnecte.Modeles
 
         public bool PRESENT { get; set; }
 
-        public void SetPresent(int iPresent)
+        public void MajPresent()
         {
             MySqlConnection connection = DBUtils.GetDBConnection();
 
             try
             {
-                string sQuery = string.Format("UPDATE `joueur` SET `PRESENT` = {0} WHERE `JOUE_ID` = {1}", iPresent, JOUE_ID);
-
+                string sQuery = string.Format("UPDATE `joueur` SET `PRESENT` = {0} WHERE `JOUE_ID` = {1}", PRESENT ? 1 : 0, JOUE_ID);
                 connection.Execute(sQuery);
             }
             catch (Exception ex)
